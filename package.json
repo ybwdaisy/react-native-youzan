@@ -1,0 +1,41 @@
+{
+  "name": "react-native-youzan",
+  "title": "React Native Youzan",
+  "version": "1.0.0",
+  "description": "对有赞 Android SDK 和 iOS SDK 的 React Native 封装",
+  "main": "index.js",
+  "files": [
+    "README.md",
+    "android",
+    "index.js",
+    "ios",
+    "react-native-youzan.podspec"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ybwdaisy/react-native-youzan.git",
+    "baseUrl": "https://github.com/ybwdaisy/react-native-youzan"
+  },
+  "keywords": [
+    "YouzanSDK",
+    "react-native"
+  ],
+  "author": {
+    "name": "ybwdaisy",
+    "email": "ybw_daisy@163.com"
+  },
+  "license": "MIT",
+  "licenseFilename": "LICENSE",
+  "readmeFilename": "README.md",
+  "peerDependencies": {
+    "react": "^16.8.1",
+    "react-native": ">=0.60.0-rc.0 <1.0.x"
+  },
+  "devDependencies": {
+    "react": "^16.9.0",
+    "react-native": "^0.61.5"
+  }
+}
