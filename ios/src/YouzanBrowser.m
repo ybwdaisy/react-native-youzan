@@ -11,18 +11,39 @@
 @interface YouzanBrowser() <YZWebViewDelegate, YZWebViewNoticeDelegate>
 
 @property (nonatomic, strong) YZWebView *webView;
+@property (nonatomic, copy, nonnull) NSDictionary *source;
 
 @end
 
 @implementation YouzanBrowser
 
-+ (NSString *)moduleName {
-    return @"YouzanBrowser";
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        NSURL *url = [NSURL URLWithString:[self.source objectForKey:@"uri"]];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        [self.webView loadRequest:urlRequest];
+    }
+    return self;
+}
+
+- (void)setSource:(NSDictionary *)source {
+    self.source = source;
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"YouzanBrowserEvent"];
+    return @[
+        @"yzObserveLogin",
+        @"yzObserveShare",
+        @"yzObserveReady",
+        @"yzObserveAddToCart",
+        @"yzObserveBuyNow",
+        @"yzObserveAddUp",
+        @"yzObservePaymentFinished",
+    ];
 }
+
+#pragma mark Static Methods
 
 - (void)reload {
     [_webView reload];
@@ -70,6 +91,7 @@
     }];
 }
 
+#pragma mark Send Events
 
 - (void)webView:(nonnull id<YZWebView>)webView didReceiveNotice:(nonnull YZNotice *)notice {
     switch (notice.type) {

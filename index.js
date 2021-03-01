@@ -1,7 +1,7 @@
-import { NativeModules } from 'react-native';
+import {
+    requireNativeComponent,
+} from 'react-native';
 
-const { YouzanBrowser } = NativeModules;
+const YouzanBrowser = requireNativeComponent('YouzanBrowser');
 
-export default {
-    YouzanBrowser,
-};
+export default YouzanBrowser;

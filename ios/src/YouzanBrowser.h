@@ -8,10 +8,9 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 
-@interface YouzanBrowser : RCTEventEmitter <RCTBridgeModule>
+@interface YouzanBrowser : UIView <RCTBridgeModule>
 
-@property (nonatomic, copy) NSDictionary * _Nullable source;
-@property (nonatomic, copy) NSString * _Nullable userAgent;
+- (instancetype)init;
 
 - (void)reload;
 - (void)stopLoading;
