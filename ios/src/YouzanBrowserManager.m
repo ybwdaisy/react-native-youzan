@@ -24,8 +24,4 @@ RCT_EXPORT_VIEW_PROPERTY(onLoadError, RCTDirectEventBlock);
     return [[YouzanBrowser alloc]init];
 }
 
-+ (BOOL)requiresMainQueueSetup {
-    return YES;
-}
-
 @end

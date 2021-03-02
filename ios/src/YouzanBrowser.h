@@ -7,9 +7,10 @@
 
 #import "RCTBridgeModule.h"
 #import "RCTComponent.h"
+#import "RCTView.h"
 
-@interface YouzanBrowser : UIView <RCTBridgeModule>
-
+@interface YouzanBrowser : RCTView <RCTBridgeModule>
+ 
 @property(nonatomic, copy) RCTDirectEventBlock onLoad;
 @property(nonatomic, copy) RCTDirectEventBlock onLoadStart;
 @property(nonatomic, copy) RCTDirectEventBlock onLoadEnd;

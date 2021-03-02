@@ -48,18 +48,6 @@
     }
 }
 
-- (NSArray<NSString *> *)supportedEvents {
-    return @[
-        @"yzObserveLogin",
-        @"yzObserveShare",
-        @"yzObserveReady",
-        @"yzObserveAddToCart",
-        @"yzObserveBuyNow",
-        @"yzObserveAddUp",
-        @"yzObservePaymentFinished",
-    ];
-}
-
 #pragma mark Static Methods
 
 - (void)reload {
@@ -95,11 +83,13 @@
         return;
     }
     
+    NSString *gender = [loginInfo objectForKey:@"gender"];
+    
     [YZSDK.shared loginWithOpenUserId:openUserId
                                avatar:[loginInfo objectForKey:@"avatar"]
                                 extra:[loginInfo objectForKey:@"extra"]
                              nickName:[loginInfo objectForKey:@"nickName"]
-                               gender:[loginInfo objectForKey:@"gender"]
+                               gender:gender.intValue
                         andCompletion:^(BOOL isSuccess, NSString * _Nullable yzOpenId) {
         if (isSuccess) {
             NSLog(@"登陆成功, yzOpenId: %@", yzOpenId);
