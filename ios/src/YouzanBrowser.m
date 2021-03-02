@@ -23,8 +23,18 @@
         self.webView = [[YZWebView alloc]initWithWebViewType:YZWebViewTypeWKWebView];
         self.webView.delegate = self;
         self.webView.noticeDelegate = self;
+        self.webView.frame = self.bounds;
+        [self addSubview:self.webView];
     }
     return self;
+}
+
+- (void)setContainerSize:(NSDictionary *)size {
+    NSString *width = [size objectForKey:@"width"];
+    NSString *height = [size objectForKey:@"height"];
+    if (width != nil && height != nil) {
+        _webView.frame = CGRectMake(0, 0, width.floatValue, height.floatValue);
+    }
 }
 
 - (void)setSource:(NSDictionary *)source {
