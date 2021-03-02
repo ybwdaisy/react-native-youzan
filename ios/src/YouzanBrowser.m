@@ -108,20 +108,41 @@
     }];
 }
 
+- (NSMutableDictionary<NSString *, id> *)baseEvent {
+    NSDictionary *event = @{
+        @"url": _webView.URL.absoluteString ?: @"",
+        @"canGoBack": @(_webView.canGoBack),
+        @"canGoForward" : @(_webView.canGoForward)
+    };
+    return [[NSMutableDictionary alloc] initWithDictionary:event];
+}
+
 #pragma mark YZWebViewDelegate
 
 - (BOOL)webView:(id<YZWebView>)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType {
     NSLog(@"shouldStartLoadWithRequest");
+    if (self.onLoad) {
+        self.onLoad([self baseEvent]);
+    }
     return YES;
 }
 - (void)webViewDidStartLoad:(id<YZWebView>)webView {
     NSLog(@"webViewDidStartLoad");
+    if (self.onLoadStart) {
+        self.onLoadStart([self baseEvent]);
+    }
 }
 - (void)webViewDidFinishLoad:(id<YZWebView>)webView {
     NSLog(@"webViewDidFinishLoad");
+    if (self.onLoadEnd) {
+        self.onLoadEnd([self baseEvent]);
+    }
 }
 - (void)webView:(id<YZWebView>)webView didFailLoadWithError:(NSError *)error {
     NSLog(@"didFailLoadWithError");
+    if (self.onLoadError) {
+        self.onLoadError([self baseEvent]);
+    }
 }
 - (void)webViewWebContentProcessDidTerminate:(id<YZWebView>)webView {
     NSLog(@"webViewWebContentProcessDidTerminate");

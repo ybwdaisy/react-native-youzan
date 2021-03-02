@@ -18,9 +18,7 @@ RCT_EXPORT_VIEW_PROPERTY(containerSize, NSDictionary);
 RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onLoadStart, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onLoadEnd, RCTDirectEventBlock);
-RCT_EXPORT_VIEW_PROPERTY(onLoadProgress, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onLoadError, RCTDirectEventBlock);
-RCT_EXPORT_VIEW_PROPERTY(onMessage, RCTDirectEventBlock);
 
 - (UIView *)view {
     return [[YouzanBrowser alloc]init];

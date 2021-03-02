@@ -5,10 +5,15 @@
 //  Created by ybw-macbook-pro on 2021/3/1.
 //
 
-#import <React/RCTBridgeModule.h>
-#import <React/RCTEventEmitter.h>
+#import "RCTBridgeModule.h"
+#import "RCTComponent.h"
 
 @interface YouzanBrowser : UIView <RCTBridgeModule>
+
+@property(nonatomic, copy) RCTDirectEventBlock onLoad;
+@property(nonatomic, copy) RCTDirectEventBlock onLoadStart;
+@property(nonatomic, copy) RCTDirectEventBlock onLoadEnd;
+@property(nonatomic, copy) RCTDirectEventBlock onLoadError;
 
 - (instancetype)init;
 
