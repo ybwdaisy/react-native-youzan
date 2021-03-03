@@ -78,9 +78,9 @@
 
 - (NSMutableDictionary<NSString *, id> *)baseEvent {
     NSDictionary *event = @{
-        @"url": _webView.URL.absoluteString ?: @"",
+        @"url": _webView.URL.absoluteString ? : @"",
         @"canGoBack": @(_webView.canGoBack),
-        @"canGoForward" : @(_webView.canGoForward)
+        @"canGoForward": @(_webView.canGoForward)
     };
     return [[NSMutableDictionary alloc] initWithDictionary:event];
 }

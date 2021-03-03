@@ -13,11 +13,11 @@ import com.facebook.react.bridge.JavaScriptModule;
 public class YouzanBrowserPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new YouzanBrowserModule(reactContext));
+        return Collections.emptyList();
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        return Arrays.<ViewManager>asList(new YouzanBrowserManager(reactContext));
     }
 }
