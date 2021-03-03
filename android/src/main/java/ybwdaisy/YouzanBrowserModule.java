@@ -13,11 +13,11 @@ import java.util.HashMap;
 
 public class YouzanBrowserModule extends ReactContextBaseJavaModule {
 
-    private final ReactApplicationContext reactContext;
+    private final ReactApplicationContext mContext;
 
     public YouzanBrowserModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
+        mContext = reactContext;
     }
 
     @Override
@@ -30,6 +30,7 @@ public class YouzanBrowserModule extends ReactContextBaseJavaModule {
         YouzanSDK.yzlogin(info.getString("openUserId"),  info.getString("avatar"),  info.getString("extra"), info.getString("nickName"), info.getString("gender"), new YzLoginCallback() {
             @Override
             public void onSuccess(YouzanToken youzanToken) {
+                // TODO: YouzanBrowser.sync(YouzanToken token)
                 HashMap res = new HashMap();
                 res.put("status", 0);
                 res.put("yzOpenId", youzanToken.getYzOpenId());
@@ -44,7 +45,7 @@ public class YouzanBrowserModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void logout(final Promise promise) {
-        YouzanSDK.userLogout(reactContext);
+        YouzanSDK.userLogout(mContext);
         HashMap res = new HashMap();
         res.put("status", 0);
         promise.resolve(res);
