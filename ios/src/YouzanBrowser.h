@@ -16,6 +16,14 @@
 @property(nonatomic, copy) RCTDirectEventBlock onLoadEnd;
 @property(nonatomic, copy) RCTDirectEventBlock onLoadError;
 
+@property(nonatomic, copy) RCTDirectEventBlock onLogin;
+@property(nonatomic, copy) RCTDirectEventBlock onShare;
+@property(nonatomic, copy) RCTDirectEventBlock onReady;
+@property(nonatomic, copy) RCTDirectEventBlock onAddToCart;
+@property(nonatomic, copy) RCTDirectEventBlock onBuyNow;
+@property(nonatomic, copy) RCTDirectEventBlock onAddUp;
+@property(nonatomic, copy) RCTDirectEventBlock onPaymentFinished;
+
 - (instancetype)init;
 
 - (void)reload;
@@ -23,7 +31,5 @@
 - (void)goForward;
 - (void)goBack;
 - (void)goBackWithStep:(NSInteger)step;
-
-- (void)login:(nonnull NSDictionary *)loginInfo;
 
 @end
