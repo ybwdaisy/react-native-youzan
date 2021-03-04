@@ -115,31 +115,34 @@ RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo
         reject(@"-1", @"登陆失败, openUserId 为空", nil);
         return;
     }
+    NSString *avatar = [loginInfo objectForKey:@"avatar"];
+    NSString *extra = [loginInfo objectForKey:@"extra"];
+    NSString *nickName = [loginInfo objectForKey:@"nickName"];
     NSString *gender = [loginInfo objectForKey:@"gender"];
     [YZSDK.shared loginWithOpenUserId:openUserId
-                               avatar:[loginInfo objectForKey:@"avatar"]
-                                extra:[loginInfo objectForKey:@"extra"]
-                             nickName:[loginInfo objectForKey:@"nickName"]
+                               avatar:avatar
+                                extra:extra
+                             nickName:nickName
                                gender:gender.intValue
                         andCompletion:^(BOOL isSuccess, NSString * _Nullable yzOpenId) {
         if (isSuccess) {
-            NSLog(@"登陆成功, yzOpenId: %@", yzOpenId);
             resolve(@{
-                @"status": @0,
+                @"code": @0,
                 @"yzOpenId": yzOpenId
             });
         }
     }];
+    
 }
 
 RCT_EXPORT_METHOD(logout:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    [YZSDK.shared logoutWithCompletion:^{
-        NSLog(@"退出登录成功");
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [YZSDK.shared logout];
         resolve(@{
-            @"status": @0
+            @"code": @0
         });
-    }];
+    });
 }
 
 @end

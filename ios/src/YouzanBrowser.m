@@ -122,7 +122,9 @@
         case YZNoticeTypeLogin: {
             if (self.onLogin) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onLogin(event);
             }
             break;
@@ -131,7 +133,9 @@
         case YZNoticeTypeShare: {
             if (self.onShare) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onShare(event);
             }
             break;
@@ -140,7 +144,9 @@
         case YZNoticeTypeReady: {
             if (self.onReady) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onReady(event);
             }
             break;
@@ -149,7 +155,9 @@
         case YZNoticeTypeAddToCart: {
             if (self.onAddToCart) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onAddToCart(event);
             }
             break;
@@ -158,7 +166,9 @@
         case YZNoticeTypeBuyNow: {
             if (self.onBuyNow) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onBuyNow(event);
             }
             break;
@@ -167,7 +177,9 @@
         case YZNoticeTypeAddUp: {
             if (self.onAddUp) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onAddUp(event);
             }
             break;
@@ -176,7 +188,9 @@
         case YZNoticeTypePaymentFinished: {
             if (self.onPaymentFinished) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
-                [event setObject:notice.response forKey:@"data"];
+                if (notice.response != nil) {
+                    [event setObject:notice.response forKey:@"data"];
+                }
                 self.onPaymentFinished(event);
             }
             break;
