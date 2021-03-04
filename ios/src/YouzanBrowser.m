@@ -90,26 +90,22 @@
 #pragma mark YZWebViewDelegate
 
 - (BOOL)webView:(id<YZWebView>)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType {
-    NSLog(@"shouldStartLoadWithRequest");
     if (self.onLoad) {
         self.onLoad([self baseEvent]);
     }
     return YES;
 }
 - (void)webViewDidStartLoad:(id<YZWebView>)webView {
-    NSLog(@"webViewDidStartLoad");
     if (self.onLoadStart) {
         self.onLoadStart([self baseEvent]);
     }
 }
 - (void)webViewDidFinishLoad:(id<YZWebView>)webView {
-    NSLog(@"webViewDidFinishLoad");
     if (self.onLoadEnd) {
         self.onLoadEnd([self baseEvent]);
     }
 }
 - (void)webView:(id<YZWebView>)webView didFailLoadWithError:(NSError *)error {
-    NSLog(@"didFailLoadWithError");
     if (self.onLoadError) {
         self.onLoadError([self baseEvent]);
     }
@@ -124,58 +120,64 @@
     switch (notice.type) {
             // 收到登陆请求
         case YZNoticeTypeLogin: {
-            NSLog(@"需要登陆");
             if (self.onLogin) {
-                self.onLogin([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onLogin(event);
             }
             break;
         }
             // 收到分享的回调数据
         case YZNoticeTypeShare: {
-            NSLog(@"收到分享的回调数据");
             if (self.onShare) {
-                self.onShare([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onShare(event);
             }
             break;
         }
-            // Web页面已准备好
-            // 此时可以分享，但注意此事件并不作为是否可分享的标志事件
+            // Web页面已准备好，此时可以分享
         case YZNoticeTypeReady: {
-            NSLog(@"Web页面已准备好");
             if (self.onReady) {
-                self.onReady([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onReady(event);
             }
             break;
         }
             // 加入购物车的时候调用
         case YZNoticeTypeAddToCart: {
-            NSLog(@"加入购物车");
             if (self.onAddToCart) {
-                self.onAddToCart([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onAddToCart(event);
             }
             break;
         }
             // 商品详情立即购买
         case YZNoticeTypeBuyNow: {
-            NSLog(@"商品详立即购买");
             if (self.onBuyNow) {
-                self.onBuyNow([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onBuyNow(event);
             }
             break;
         }
-            // 购物车结算时调用
+            // 购物车结算
         case YZNoticeTypeAddUp: {
-            NSLog(@"购物车结算");
             if (self.onAddUp) {
-                self.onAddUp([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onAddUp(event);
             }
             break;
         }
             // 支付成功回调结果页
         case YZNoticeTypePaymentFinished: {
-            NSLog(@"支付成功回调结果页");
             if (self.onPaymentFinished) {
-                self.onPaymentFinished([self baseEvent]);
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                [event setObject:notice.response forKey:@"data"];
+                self.onPaymentFinished(event);
             }
             break;
         }
