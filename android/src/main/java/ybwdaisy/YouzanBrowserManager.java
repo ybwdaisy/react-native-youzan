@@ -2,13 +2,10 @@ package ybwdaisy;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -21,9 +18,6 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
-import com.youzan.androidsdk.YouzanSDK;
-import com.youzan.androidsdk.YouzanToken;
-import com.youzan.androidsdk.YzLoginCallback;
 import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;
@@ -37,7 +31,6 @@ import com.youzan.androidsdk.model.goods.GoodsShareModel;
 import com.youzan.androidsdk.model.trade.TradePayFinishedModel;
 import com.youzan.androidsdkx5.YouzanBrowser;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -135,6 +128,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	protected YouzanBrowser createViewInstance(ThemedReactContext themedReactContext) {
 		mEventEmitter = themedReactContext.getJSModule(RCTEventEmitter.class);
 		youzanBrowser = new YouzanBrowser(themedReactContext);
+		youzanBrowser.needLoading(false);
 		// WebView 加载回调
 		youzanBrowser.setWebViewClient(new WebViewClient() {
 			@Override
@@ -299,49 +293,15 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 
 	@ReactProp(name = "source")
 	public void setSource(final YouzanBrowser youzanBrowser, ReadableMap source) {
-		if (mSource == null) {
-			mSource = source;
-			if (youzanBrowser != null) {
-				youzanBrowser.loadUrl(mSource.getString("uri"));
-			}
+		mSource = source;
+		String uri = mSource.getString("uri");
+		if (youzanBrowser != null && uri != null) {
+			youzanBrowser.loadUrl(uri);
 		}
 	}
 
 	@ReactProp(name = "containerSize")
 	public void setContainerSize(final YouzanBrowser youzanBrowser, ReadableMap containerSize) {
-		if (mContainerSize == null) {
-			mContainerSize = containerSize;
-			// youzanBrowser.setLayoutParams(new ViewGroup.LayoutParams(
-			// 		containerSize.getInt("width"),
-			// 		containerSize.getInt("height")
-			// ));
-		}
+		mContainerSize = containerSize;
 	}
-
-	@ReactMethod
-	public void login(ReadableMap info, final Promise promise) {
-		YouzanSDK.yzlogin(info.getString("openUserId"),  info.getString("avatar"),  info.getString("extra"), info.getString("nickName"), info.getString("gender"), new YzLoginCallback() {
-			@Override
-			public void onSuccess(YouzanToken youzanToken) {
-				youzanBrowser.sync(youzanToken);
-				HashMap res = new HashMap();
-				res.put("status", 0);
-				res.put("yzOpenId", youzanToken.getYzOpenId());
-				promise.resolve(res);
-			}
-			@Override
-			public void onFail(String s) {
-				promise.reject("-1", "登录失败");
-			}
-		});
-	}
-
-	@ReactMethod
-	public void logout(final Promise promise) {
-		YouzanSDK.userLogout(mContext);
-		HashMap res = new HashMap();
-		res.put("status", 0);
-		promise.resolve(res);
-	}
-
 }
