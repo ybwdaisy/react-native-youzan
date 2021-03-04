@@ -5,9 +5,9 @@
 //  Created by ybw-macbook-pro on 2021/3/1.
 //
 
-#import "RCTBridgeModule.h"
-#import "RCTComponent.h"
-#import "RCTView.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTComponent.h>
+#import <React/RCTView.h>
 
 @interface YouzanBrowser : RCTView <RCTBridgeModule>
  
@@ -24,7 +24,7 @@
 @property(nonatomic, copy) RCTDirectEventBlock onAddUp;
 @property(nonatomic, copy) RCTDirectEventBlock onPaymentFinished;
 
-- (instancetype)init;
+- (instancetype)initWithBridge:(RCTBridge *)bridge;
 
 - (void)reload;
 - (void)stopLoading;

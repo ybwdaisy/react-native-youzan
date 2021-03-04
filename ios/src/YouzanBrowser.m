@@ -10,6 +10,7 @@
 
 @interface YouzanBrowser() <YZWebViewDelegate, YZWebViewNoticeDelegate>
 
+@property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, strong) YZWebView *webView;
 @property (nonatomic, copy, nonnull) NSDictionary *source;
 
@@ -17,9 +18,10 @@
 
 @implementation YouzanBrowser
 
-- (instancetype)init {
+- (instancetype)initWithBridge:(RCTBridge *)bridge {
     self = [super init];
     if (self) {
+        self.bridge = bridge;
         self.webView = [[YZWebView alloc]initWithWebViewType:YZWebViewTypeWKWebView];
         self.webView.delegate = self;
         self.webView.noticeDelegate = self;

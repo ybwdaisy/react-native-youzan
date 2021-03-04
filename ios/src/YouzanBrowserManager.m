@@ -9,6 +9,7 @@
 #import <YZBaseSDK/YZBaseSDK.h>
 #import <YZBaseSDK/YZWebView.h>
 #import "YouzanBrowser.h"
+#import <React/RCTUIManager.h>
 
 @implementation YouzanBrowserManager
 
@@ -30,16 +31,86 @@ RCT_EXPORT_VIEW_PROPERTY(onAddUp, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onPaymentFinished, RCTDirectEventBlock);
 
 - (UIView *)view {
-    return [[YouzanBrowser alloc]init];
+    return [[YouzanBrowser alloc]initWithBridge:self.bridge];
 }
 
-#pragma mark 导出静态方法
-// 登录
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[
+        @"onLoad",
+        @"onLoadStart",
+        @"onLoadEnd",
+        @"onLoadError",
+        @"onLogin",
+        @"onShare",
+        @"onReady",
+        @"onAddToCart",
+        @"onBuyNow",
+        @"onAddUp",
+        @"onPaymentFinished"
+    ];
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
+
+#pragma mark Export Instance Methods
+
+RCT_EXPORT_METHOD(reload:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser reload];
+            }
+    }];
+}
+
+RCT_EXPORT_METHOD(stopLoading:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser stopLoading];
+            }
+    }];
+}
+
+RCT_EXPORT_METHOD(goBack:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser goBack];
+            }
+    }];
+}
+
+RCT_EXPORT_METHOD(goForward:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser goForward];
+            }
+    }];
+}
+
+RCT_EXPORT_METHOD(goBackWithStep:(nonnull NSNumber *)reactTag step:(NSInteger)step) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser goBackWithStep:step];
+            }
+    }];
+}
+
+
+#pragma mark Export Static Methods
+
 RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSString *openUserId = [loginInfo objectForKey:@"openUserId"];
-    // openUserId 是必传参数
     if ([openUserId isEqual:[NSNull null]]) {
         reject(@"-1", @"登陆失败, openUserId 为空", nil);
         return;
@@ -61,7 +132,6 @@ RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo
     }];
 }
 
-// 退出登录
 RCT_EXPORT_METHOD(logout:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     [YZSDK.shared logoutWithCompletion:^{
