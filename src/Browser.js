@@ -21,6 +21,13 @@ class Browser extends Component {
         onLoadStart: PropTypes.func,
         onLoadEnd: PropTypes.func,
         onLoadError: PropTypes.func,
+        onReady: PropTypes.func,
+        onLogin: PropTypes.func,
+        onShare: PropTypes.func,
+        onAddToCart: PropTypes.func,
+        onBuyNow: PropTypes.func,
+        onAddUp: PropTypes.func,
+        onPaymentFinished: PropTypes.func,
     }
 
     constructor(props) {
