@@ -19,4 +19,4 @@ class YouzanAccount {
     }
 }
 
-export default new YouzanAccount();
+export default Account;
