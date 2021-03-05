@@ -17,6 +17,7 @@ export interface ShareEventData {
     title: string,
     desc: string,
     link: string,
+    imgUrl: string,
 }
 
 export interface ShareEvent extends BaseEvent {

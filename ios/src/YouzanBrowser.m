@@ -134,7 +134,12 @@
             if (self.onShare) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
-                    [event setObject:notice.response forKey:@"data"];
+                    NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                    [data setObject:[notice.response objectForKey:@"title"] forKey:@"title"];
+                    [data setObject:[notice.response objectForKey:@"desc"] forKey:@"desc"];
+                    [data setObject:[notice.response objectForKey:@"link"] forKey:@"link"];
+                    [data setObject:[notice.response objectForKey:@"img_url"] forKey:@"imgUrl"];
+                    [event setObject:data forKey:@"data"];
                 }
                 self.onShare(event);
             }
@@ -156,7 +161,14 @@
             if (self.onAddToCart) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
-                    [event setObject:notice.response forKey:@"data"];
+                    NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                    [data setObject:[notice.response objectForKey:@"item_id"] forKey:@"itemId"];
+                    [data setObject:[notice.response objectForKey:@"sku_id"] forKey:@"skuId"];
+                    [data setObject:[notice.response objectForKey:@"alias"] forKey:@"alias"];
+                    [data setObject:[notice.response objectForKey:@"title"] forKey:@"title"];
+                    [data setObject:[notice.response objectForKey:@"num"] forKey:@"num"];
+                    [data setObject:[notice.response objectForKey:@"pay_price"] forKey:@"payPrice"];
+                    [event setObject:data forKey:@"data"];
                 }
                 self.onAddToCart(event);
             }
@@ -167,7 +179,14 @@
             if (self.onBuyNow) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
-                    [event setObject:notice.response forKey:@"data"];
+                    NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                    [data setObject:[notice.response objectForKey:@"item_id"] forKey:@"itemId"];
+                    [data setObject:[notice.response objectForKey:@"sku_id"] forKey:@"skuId"];
+                    [data setObject:[notice.response objectForKey:@"alias"] forKey:@"alias"];
+                    [data setObject:[notice.response objectForKey:@"title"] forKey:@"title"];
+                    [data setObject:[notice.response objectForKey:@"num"] forKey:@"num"];
+                    [data setObject:[notice.response objectForKey:@"pay_price"] forKey:@"payPrice"];
+                    [event setObject:data forKey:@"data"];
                 }
                 self.onBuyNow(event);
             }
@@ -178,7 +197,19 @@
             if (self.onAddUp) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
-                    [event setObject:notice.response forKey:@"data"];
+                    NSMutableArray *goodsList = [notice.response objectForKey:@"goodsList"];
+                    NSMutableArray *data = [[NSMutableArray alloc]init];
+                    for (NSMutableDictionary<NSString *, id> *good in goodsList) {
+                        [data addObject:@{
+                            @"itemId": [good objectForKey:@"item_id"],
+                            @"skuId": [good objectForKey:@"sku_id"],
+                            @"alias": [good objectForKey:@"alias"],
+                            @"title": [good objectForKey:@"title"],
+                            @"num": [good objectForKey:@"num"],
+                            @"payPrice": [good objectForKey:@"pay_price"]
+                        }];
+                    }
+                    [event setObject:data forKey:@"data"];
                 }
                 self.onAddUp(event);
             }
@@ -189,11 +220,18 @@
             if (self.onPaymentFinished) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
-                    [event setObject:notice.response forKey:@"data"];
+                    NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                    [data setObject:[notice.response objectForKey:@"tid"] forKey:@"tid"];
+                    [data setObject:[notice.response objectForKey:@"status"] forKey:@"status"];
+                    [data setObject:[notice.response objectForKey:@"pay_price"] forKey:@"payPrice"];
+                    [event setObject:data forKey:@"data"];
                 }
                 self.onPaymentFinished(event);
             }
             break;
+        }
+        case YZNoticeTypeOther: {
+            NSLog(@"response: %@", notice.response);
         }
         default:
             break;

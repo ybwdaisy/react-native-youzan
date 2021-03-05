@@ -2,13 +2,16 @@ package ybwdaisy;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -18,6 +21,9 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
+import com.youzan.androidsdk.YouzanSDK;
+import com.youzan.androidsdk.YouzanToken;
+import com.youzan.androidsdk.YzLoginCallback;
 import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;
@@ -223,6 +229,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				data.putString("title", goodsShareModel.getTitle());
 				data.putString("desc", goodsShareModel.getDesc());
 				data.putString("link", goodsShareModel.getLink());
+				data.putString("imgUrl", goodsShareModel.getImgUrl());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_SHARE.toString(), baseEvent);
 			}
@@ -244,8 +251,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				data.putString("skuId", String.valueOf(goodsOfCartModel.getSkuId()));
 				data.putString("alias", goodsOfCartModel.getAlias());
 				data.putString("title", goodsOfCartModel.getTitle());
-				data.putString("num", String.valueOf(goodsOfCartModel.getNum()));
-				data.putString("payPrice", String.valueOf(goodsOfCartModel.getPayPrice()));
+				data.putInt("num", goodsOfCartModel.getNum());
+				data.putInt("payPrice", goodsOfCartModel.getPayPrice());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_ADD_TO_CART.toString(), baseEvent);
 			}
@@ -255,7 +262,19 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			@Override
 			public void call(Context context, List<GoodsOfSettleModel> list) {
 				WritableMap baseEvent = baseEvent();
-				baseEvent.putArray("data", (ReadableArray) list);
+				WritableArray data = new WritableNativeArray();
+				for (GoodsOfSettleModel goodsOfSettleModel : list) {
+					WritableMap map = new WritableNativeMap();
+					map.putString("itemId", String.valueOf(goodsOfSettleModel.getItemId()));
+					map.putString("skuId", String.valueOf(goodsOfSettleModel.getSkuId()));
+					map.putString("alias", goodsOfSettleModel.getAlias());
+					map.putString("title", goodsOfSettleModel.getTitle());
+					map.putInt("num", goodsOfSettleModel.getNum());
+					map.putInt("payPrice", goodsOfSettleModel.getPayPrice());
+					map.putBoolean("selected", goodsOfSettleModel.isSelected());
+					data.pushMap(map);
+				}
+				baseEvent.putArray("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_ADD_UP.toString(), baseEvent);
 			}
 		});
@@ -269,8 +288,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				data.putString("skuId", String.valueOf(goodsOfCartModel.getSkuId()));
 				data.putString("alias", goodsOfCartModel.getAlias());
 				data.putString("title", goodsOfCartModel.getTitle());
-				data.putString("num", String.valueOf(goodsOfCartModel.getNum()));
-				data.putString("payPrice", String.valueOf(goodsOfCartModel.getPayPrice()));
+				data.putInt("num", goodsOfCartModel.getNum());
+				data.putInt("payPrice", goodsOfCartModel.getPayPrice());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_BUY_NOW.toString(), baseEvent);
 			}
@@ -282,8 +301,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				WritableMap baseEvent = baseEvent();
 				WritableMap data = new WritableNativeMap();
 				data.putString("tid", tradePayFinishedModel.getTid());
-				data.putString("status", String.valueOf(tradePayFinishedModel.getStatus()));
-				data.putString("payType", String.valueOf(tradePayFinishedModel.getPayType()));
+				data.putInt("status", tradePayFinishedModel.getStatus());
+				data.putInt("payType", tradePayFinishedModel.getPayType());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_PAYMENT_FINISHED.toString(), baseEvent);
 			}
