@@ -10,10 +10,19 @@
 
 ## 3. 初始化 SDK
 
-在有赞云控制台获取 `client_id`，并配置好 `App` 安全码（配置教程参考[官方文档](https://doc.youzanyun.com/resource/develop-guide/35675/38923)）
+【重要❗️❗️❗️】在有赞云控制台获取 `client_id`，并配置好 `App` 安全码（配置教程参考[官方文档](https://doc.youzanyun.com/resource/develop-guide/35675/38923)）
+
+注意以下代码中 `yourClientId` 和 `yourAppKey` 即为此处配置的值。
+
 ### iOS
 
-在 AppDelegate.m 文件中添加如下代码：
+#### 1. 在 `Podfile` 中引入 `YZAppSDK` 并执行 `pod install`
+
+```objectivec
+pod 'YZAppSDK'
+```
+
+#### 2. 在 AppDelegate.m 文件中添加如下代码
 
 ```objectivec
 ...
@@ -33,8 +42,18 @@
 
 ### Android
 
-在 `MainApplication` 中添加如下代码：
+#### 1. 在 `app/build.gradle` dependencies 添加依赖
 
+```java
+dependencies {
+  ...
+  implementation 'com.youzanyun.open.mobile:x5sdk:7.1.11', {
+    exclude group: 'com.android.support'
+  }
+}
+```
+
+#### 2. 在 `MainApplication` 中添加如下代码
 
 ```java
 ...
