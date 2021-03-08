@@ -31,11 +31,19 @@
     return self;
 }
 
-- (void)setContainerSize:(NSDictionary *)size {
-    NSString *width = [size objectForKey:@"width"];
-    NSString *height = [size objectForKey:@"height"];
-    if (width != nil && height != nil) {
-        _webView.frame = CGRectMake(0, 0, width.floatValue, height.floatValue);
+- (void)setWidth:(NSNumber *)width {
+    if (width != nil) {
+        _webView.frame = CGRectMake(0, 0, width.floatValue, _webView.frame.size.height);
+    } else {
+        _webView.frame = CGRectMake(0, 0, 375, _webView.frame.size.height);
+    }
+}
+
+- (void)setHeight:(NSNumber *)height {
+    if (height != nil) {
+        _webView.frame = CGRectMake(0, 0, _webView.frame.size.width, height.floatValue);
+    } else {
+        _webView.frame = CGRectMake(0, 0, _webView.frame.size.width, 600);
     }
 }
 

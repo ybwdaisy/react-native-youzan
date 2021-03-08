@@ -17,7 +17,6 @@ export interface ShareEventData {
     title: string,
     desc: string,
     link: string,
-    imgUrl: string,
 }
 
 export interface ShareEvent extends BaseEvent {
@@ -63,6 +62,8 @@ export declare type PaymentFinishedEventType = NativeSyntheticEvent<PaymentFinis
 
 export interface BrowserProps extends ViewProps {
     source: BrowserSource,
+    width?: number,
+    height?: number,
     onLoad?: (event: BaseEventType) => void,
     onLoadStart?: (event: BaseEventType) => void,
     onLoadEnd?: (event: BaseEventType) => void,

@@ -13,10 +13,8 @@ class Browser extends Component {
         source: PropTypes.shape({
             uri: PropTypes.string,
         }).isRequired,
-        containerSize: PropTypes.shape({
-            width: PropTypes.number,
-            height: PropTypes.number
-        }).isRequired,
+        width: PropTypes.number,
+        height: PropTypes.number,
         onLoad: PropTypes.func,
         onLoadStart: PropTypes.func,
         onLoadEnd: PropTypes.func,
@@ -80,7 +78,18 @@ class Browser extends Component {
     }
 
     render() {
-        return <YouzanBrowser ref={this.browserRef} {...this.props} />;
+        const {
+            style,
+            width,
+            height
+        } = this.props;
+        return (
+            <YouzanBrowser
+                ref={this.browserRef}
+                {...this.props}
+                style={[style, { width, height }]}
+            />
+        );
     }
 }
 
