@@ -257,6 +257,22 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_ADD_TO_CART.toString(), baseEvent);
 			}
 		});
+		// 商品详情“立即购买”
+		youzanBrowser.subscribe(new AbsBuyNowEvent() {
+			@Override
+			public void call(Context context, GoodsOfCartModel goodsOfCartModel) {
+				WritableMap baseEvent = baseEvent();
+				WritableMap data = new WritableNativeMap();
+				data.putString("itemId", String.valueOf(goodsOfCartModel.getItemId()));
+				data.putString("skuId", String.valueOf(goodsOfCartModel.getSkuId()));
+				data.putString("alias", goodsOfCartModel.getAlias());
+				data.putString("title", goodsOfCartModel.getTitle());
+				data.putInt("num", goodsOfCartModel.getNum());
+				data.putInt("payPrice", goodsOfCartModel.getPayPrice());
+				baseEvent.putMap("data", data);
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_BUY_NOW.toString(), baseEvent);
+			}
+		});
 		// 购物车结算
 		youzanBrowser.subscribe(new AbsAddUpEvent() {
 			@Override
@@ -276,22 +292,6 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				}
 				baseEvent.putArray("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_ADD_UP.toString(), baseEvent);
-			}
-		});
-		// 商品详情“立即购买”
-		youzanBrowser.subscribe(new AbsBuyNowEvent() {
-			@Override
-			public void call(Context context, GoodsOfCartModel goodsOfCartModel) {
-				WritableMap baseEvent = baseEvent();
-				WritableMap data = new WritableNativeMap();
-				data.putString("itemId", String.valueOf(goodsOfCartModel.getItemId()));
-				data.putString("skuId", String.valueOf(goodsOfCartModel.getSkuId()));
-				data.putString("alias", goodsOfCartModel.getAlias());
-				data.putString("title", goodsOfCartModel.getTitle());
-				data.putInt("num", goodsOfCartModel.getNum());
-				data.putInt("payPrice", goodsOfCartModel.getPayPrice());
-				baseEvent.putMap("data", data);
-				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_BUY_NOW.toString(), baseEvent);
 			}
 		});
 		// 支付成功回调结果页

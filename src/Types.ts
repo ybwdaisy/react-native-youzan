@@ -62,14 +62,14 @@ export declare type PaymentFinishedEventType = NativeSyntheticEvent<PaymentFinis
 
 export interface BrowserProps extends ViewProps {
     source: BrowserSource,
-    width?: number,
-    height?: number,
+    width: number,
+    height: number,
     onLoad?: (event: BaseEventType) => void,
     onLoadStart?: (event: BaseEventType) => void,
     onLoadEnd?: (event: BaseEventType) => void,
     onLoadError?: (event: BaseEventType) => void,
     onReady?: (event: BaseEventType) => void,
-    onLogin?: (event: BaseEventType) => void,
+    onLogin: (event: BaseEventType) => void,
     onShare?: (event: ShareEventType) => void,
     onAddToCart?: (event: SKUItemEventType) => void,
     onAddUp?: (event: AddUpEventType) => void,
