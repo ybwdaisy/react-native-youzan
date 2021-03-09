@@ -74,13 +74,15 @@ public void onCreate() {
 
 ```javascript
 import React, { Component } from 'react';
-import { YouzanBrowser } from 'react-native-youzan';
+import { Browser } from 'react-native-youzan';
 
 class MyView extends Component {
   render() {
     return (
-      <YouzanBrowser
-        style={{ width: 375, height: 600 }}
+      <Browser
+        style={{ flex: 1 }}
+        width={375}
+        height={600}
         source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
       />
     );
