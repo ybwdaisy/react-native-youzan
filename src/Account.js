@@ -2,7 +2,7 @@ import { NativeModules } from 'react-native';
 
 const { YouzanBrowserManager } = NativeModules;
 
-class YouzanAccount {
+class Account {
     /**
      * 登录
      * @param {*} info
