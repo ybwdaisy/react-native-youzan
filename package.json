@@ -6,9 +6,11 @@
   "main": "index.js",
   "files": [
     "README.md",
-    "android",
-    "index.js",
+    "src",
     "ios",
+    "android",
+    "index.d.ts",
+    "index.js",
     "react-native-youzan.podspec"
   ],
   "scripts": {
