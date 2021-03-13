@@ -131,6 +131,8 @@ RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo
                 @"code": @0,
                 @"yzOpenId": yzOpenId
             });
+        } else {
+            reject(@"-1", @"YZSDK 返回登陆失败，请联系有赞", nil);
         }
     }];
     

@@ -2,7 +2,6 @@ package ybwdaisy;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -21,9 +20,6 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
-import com.youzan.androidsdk.YouzanSDK;
-import com.youzan.androidsdk.YouzanToken;
-import com.youzan.androidsdk.YzLoginCallback;
 import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;

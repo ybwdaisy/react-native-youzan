@@ -53,7 +53,7 @@ public class YouzanBrowserModule extends ReactContextBaseJavaModule {
 			}
 			@Override
 			public void onFail(String s) {
-				promise.reject("-1", "登录失败");
+				promise.reject("-1", "YouzanSDK 返回登陆失败，请联系有赞");
 			}
 		});
 	}
