@@ -1,16 +1,20 @@
 # React Native Youzan Getting Started Guide
 
-## 1. 安装依赖包
+## 安装依赖包
 
-`$ npm install react-native-youzan --save`
+```bash
+npm install react-native-youzan --save
+```
 
-## 2. 对于 `0.59` 以下版本需要手动 `link`
+## 对于 `React Native` `0.59` 以下版本需要手动 `link`
 
-`$ react-native link react-native-youzan`
+```bash
+react-native link react-native-youzan
+```
 
-## 3. 初始化 SDK
+## 初始化 `SDK`
 
-【重要❗️❗️❗️】在有赞云控制台获取 `client_id`，并配置好 `App` 安全码（配置教程参考[官方文档](https://doc.youzanyun.com/resource/develop-guide/35675/38923)）
+【❗️❗️❗️】在有赞云控制台获取 `client_id`，并配置好 `App` 安全码（配置教程参考[官方文档](https://doc.youzanyun.com/resource/develop-guide/35675/38923)）
 
 注意以下代码中 `yourClientId` 和 `yourAppKey` 即为此处配置的值。
 
@@ -22,7 +26,7 @@
 pod 'YZAppSDK'
 ```
 
-#### 2. 在 AppDelegate.m 文件中添加如下代码
+#### 2. 在 `AppDelegate.m` 文件中添加如下代码
 
 ```objectivec
 ...
@@ -42,7 +46,18 @@ pod 'YZAppSDK'
 
 ### Android
 
-#### 1. 在 `app/build.gradle` dependencies 添加依赖
+#### 1. 在 `android/build.gradle` 添加有赞 `maven` 仓库地址
+
+```java
+allprojects {
+    repositories {
+      ...
+      maven { url 'https://dl.bintray.com/youzanyun/maven/' }
+    }
+}
+```
+
+#### 2. 在 `app/build.gradle` 添加依赖
 
 ```java
 dependencies {
@@ -53,7 +68,7 @@ dependencies {
 }
 ```
 
-#### 2. 在 `MainApplication` 中添加如下代码
+#### 3. 在 `MainApplication` 中添加如下代码
 
 ```java
 ...
@@ -70,7 +85,7 @@ public void onCreate() {
 
 ```
 
-## 3. 引入并使用组件
+## 使用组件
 
 ```javascript
 import React, { Component } from 'react';
