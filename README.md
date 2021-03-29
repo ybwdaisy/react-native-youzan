@@ -20,13 +20,7 @@ react-native link react-native-youzan
 
 ### iOS
 
-#### 1. 在 `Podfile` 中引入 `YZAppSDK` 并执行 `pod install`
-
-```objectivec
-pod 'YZAppSDK'
-```
-
-#### 2. 在 `AppDelegate.m` 文件中添加如下代码
+#### 1. 在 `AppDelegate.m` 文件中添加如下代码
 
 ```objectivec
 ...
@@ -37,6 +31,9 @@ pod 'YZAppSDK'
   ...
 
   YZConfig *yzConfig = [[YZConfig alloc] initWithClientId:@"yourClientId" andAppKey:@"yourAppKey"];
+  NSArray *URLTypes = [NSBundle mainBundle].infoDictionary[@"CFBundleURLTypes"];
+  NSString *scheme = [[URLTypes firstObject][@"CFBundleURLSchemes"] firstObject];
+  yzConfig.scheme = scheme;
   [YZSDK.shared initializeSDKWithConfig:yzConfig];
   YZSDK.shared.delegate = self;
 
