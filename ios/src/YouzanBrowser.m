@@ -86,6 +86,10 @@
     }
 }
 
+- (void)syncToken:(NSDictionary *)token {
+    // TODO
+}
+
 - (NSMutableDictionary<NSString *, id> *)baseEvent {
     NSDictionary *event = @{
         @"url": _webView.URL.absoluteString ? : @"",

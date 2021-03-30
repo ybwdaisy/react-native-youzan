@@ -73,7 +73,15 @@ class Browser extends Component {
         UIManager.dispatchViewManagerCommand(
             this.findNodeHandle(),
             this.getCommands().goBackWithStep,
-            step,
+            [step],
+        )
+    }
+
+    syncToken = (token) => {
+        UIManager.dispatchViewManagerCommand(
+            this.findNodeHandle(),
+            this.getCommands().syncToken,
+            [token],
         )
     }
 

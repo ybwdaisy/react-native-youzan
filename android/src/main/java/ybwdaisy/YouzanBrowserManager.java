@@ -20,6 +20,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
+import com.youzan.androidsdk.YouzanToken;
 import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;
@@ -47,10 +48,10 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	public static final int COMMAND_GO_FORWARD = 3;
 	public static final int COMMAND_GO_BACK = 4;
 	public static final int COMMAND_GO_BACK_WITH_STEP = 5;
+	public static final int COMMAND_SYNC_TOKEN = 6;
 
 	private YouzanBrowser youzanBrowser;
 	private ReadableMap mSource = null;
-	private ReadableMap mContainerSize = null;
 	private RCTEventEmitter mEventEmitter;
 	ReactApplicationContext mContext;
 
@@ -72,6 +73,9 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			case COMMAND_GO_BACK_WITH_STEP:
 				goBackWithStep(args.getInt(0));
 				break;
+			case COMMAND_SYNC_TOKEN:
+				syncToken(args.getMap(0));
+				break;
 			default:
 				break;
 		}
@@ -86,6 +90,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				.put("goBack", COMMAND_GO_BACK)
 				.put("goForward", COMMAND_GO_FORWARD)
 				.put("goBackWithStep", COMMAND_GO_BACK_WITH_STEP)
+				.put("syncToken", COMMAND_SYNC_TOKEN)
 				.build();
 	}
 
@@ -196,6 +201,17 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		if (youzanBrowser.canGoBack()) {
 			youzanBrowser.goBackOrForward(step);
 		}
+	}
+
+	private void syncToken(ReadableMap token) {
+		YouzanToken youzanToken = new YouzanToken();
+
+		youzanToken.setYzOpenId(token.getString("yzOpenId"));
+		youzanToken.setAccessToken(token.getString("accessToken"));
+		youzanToken.setCookieKey(token.getString("cookieKey"));
+		youzanToken.setCookieValue(token.getString("cookieValue"));
+
+		youzanBrowser.sync(youzanToken);
 	}
 
 	private WritableMap baseEvent() {
@@ -313,10 +329,5 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		if (youzanBrowser != null && uri != null) {
 			youzanBrowser.loadUrl(uri);
 		}
-	}
-
-	@ReactProp(name = "containerSize")
-	public void setContainerSize(final YouzanBrowser youzanBrowser, ReadableMap containerSize) {
-		mContainerSize = containerSize;
 	}
 }

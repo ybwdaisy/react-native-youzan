@@ -105,6 +105,15 @@ RCT_EXPORT_METHOD(goBackWithStep:(nonnull NSNumber *)reactTag step:(NSInteger)st
     }];
 }
 
+RCT_EXPORT_METHOD(syncToken:(nonnull NSNumber *)reactTag token:(NSDictionary *)token) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser syncToken:token];
+            }
+    }];
+}
+
 
 #pragma mark Export Static Methods
 
@@ -129,7 +138,9 @@ RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo
         if (isSuccess) {
             resolve(@{
                 @"code": @0,
-                @"yzOpenId": yzOpenId
+                @"data": @{
+                    @"yzOpenId": yzOpenId
+                }
             });
         } else {
             reject(@"-1", @"YZSDK 返回登陆失败，请联系有赞", nil);
