@@ -71,7 +71,6 @@ dependencies {
 ...
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
-import com.youzan.androidsdkx5.YouzanPreloader;
 
 
 @Override
@@ -499,6 +498,7 @@ payType
 - [`reload`](README.md#reload)
 - [`stopLoading`](README.md#stopLoading)
 - [`goBackWithStep`](README.md#goBackWithStep)
+- [`syncToken`](README.md#syncToken)
 
 #### `goBack`[⬆](#methods-index)
 
@@ -539,6 +539,14 @@ goBackWithStep(step);
 ```
 
 Go back `step` page in the view's history.
+
+#### `syncToken`[⬆](#methods-index)
+
+```javascript
+syncToken(token);
+```
+
+Sync token to browser.
 
 ### SDK Methods Index
 
