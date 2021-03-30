@@ -205,19 +205,23 @@
             if (self.onAddUp) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
-                    NSMutableArray *goodsList = [notice.response objectForKey:@"goodsList"];
+                    NSString *goodsJson = [notice.response objectForKey:@"goodsList"];
+                    NSMutableArray *goodsList = [self arrayWithJsonString:goodsJson];
                     NSMutableArray *data = [[NSMutableArray alloc]init];
-                    for (NSMutableDictionary<NSString *, id> *good in goodsList) {
-                        [data addObject:@{
-                            @"itemId": [good objectForKey:@"item_id"],
-                            @"skuId": [good objectForKey:@"sku_id"],
-                            @"alias": [good objectForKey:@"alias"],
-                            @"title": [good objectForKey:@"title"],
-                            @"num": [good objectForKey:@"num"],
-                            @"payPrice": [good objectForKey:@"pay_price"]
-                        }];
+                    if (goodsList.count != 0) {
+                        for (NSMutableDictionary<NSString *, id> *good in goodsList) {
+                            [data addObject:@{
+                                @"itemId": [good objectForKey:@"item_id"],
+                                @"skuId": [good objectForKey:@"sku_id"],
+                                @"alias": [good objectForKey:@"alias"],
+                                @"title": [good objectForKey:@"title"],
+                                @"num": [good objectForKey:@"num"],
+                                @"payPrice": [good objectForKey:@"pay_price"],
+                                @"selected": [good objectForKey:@"selected"]
+                            }];
+                        }
+                        [event setObject:data forKey:@"data"];
                     }
-                    [event setObject:data forKey:@"data"];
                 }
                 self.onAddUp(event);
             }
@@ -244,6 +248,22 @@
         default:
             break;
     }
+}
+
+#pragma mark Utils
+- (id)arrayWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSMutableArray *array = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:&error];
+    if (error) {
+        return nil;
+    }
+    return array;
 }
 
 @end
