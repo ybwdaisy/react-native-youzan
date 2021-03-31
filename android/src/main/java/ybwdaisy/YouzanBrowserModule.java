@@ -47,8 +47,13 @@ public class YouzanBrowserModule extends ReactContextBaseJavaModule {
 			public void onSuccess(YouzanToken youzanToken) {
 				YouzanSDK.sync(mContext, youzanToken);
 				WritableMap res = new WritableNativeMap();
+				WritableMap data = new WritableNativeMap();
+				data.putString("yzOpenId", youzanToken.getYzOpenId());
+				data.putString("accessToken", youzanToken.getAccessToken());
+				data.putString("cookieKey", youzanToken.getCookieKey());
+				data.putString("cookieValue", youzanToken.getCookieValue());
 				res.putInt("code", 0);
-				res.putString("yzOpenId", youzanToken.getYzOpenId());
+				res.putMap("data", data);
 				promise.resolve(res);
 			}
 			@Override
