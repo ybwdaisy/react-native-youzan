@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSString *openUserId = [loginInfo objectForKey:@"openUserId"];
-    if ([openUserId isEqual:[NSNull null]]) {
+    if (openUserId == nil) {
         reject(@"-1", @"登陆失败, openUserId 为空", nil);
         return;
     }
