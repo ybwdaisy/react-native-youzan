@@ -1,7 +1,7 @@
 {
   "name": "react-native-youzan",
   "title": "React Native Youzan",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "对有赞 Android SDK 和 iOS SDK 的 React Native 封装",
   "main": "index.js",
   "files": [
