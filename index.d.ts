@@ -5,7 +5,7 @@ import {
     AccountResult,
 } from './src/Types';
 
-declare class Browser<P = {}> extends Component<BrowserProps & P> {
+declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
     /**
      * Go back one page in the browser's history.
      */
@@ -43,12 +43,12 @@ declare class Browser<P = {}> extends Component<BrowserProps & P> {
     render(): JSX.Element;
 }
 
-declare class Account {
+declare class YouzanAccount {
     static login: (info: LoginInfo) => Promise<AccountResult | void>;
     static logout: () => Promise<AccountResult | void>;
 }
 
 export {
-    Account,
-    Browser,
+    YouzanAccount,
+    YouzanBrowser,
 }
