@@ -59,7 +59,7 @@ allprojects {
 ```java
 dependencies {
   ...
-  implementation 'com.youzanyun.open.mobile:x5sdk:7.1.11', {
+  implementation 'com.youzanyun.open.mobile:x5sdk:7.1.15', {
     exclude group: 'com.android.support'
   }
 }
@@ -85,12 +85,12 @@ public void onCreate() {
 
 ```javascript
 import React, { Component } from 'react';
-import { Browser } from 'react-native-youzan';
+import { YouzanBrowser } from 'react-native-youzan';
 
 class MyView extends Component {
   render() {
     return (
-      <Browser
+      <YouzanBrowser
         style={{ flex: 1 }}
         width={375}
         height={600}
@@ -157,7 +157,7 @@ Function that is invoked when the `View` has finished loading.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onLoad={({ nativeEvent }) => {
     this.url = nativeEvent.url;
@@ -184,7 +184,7 @@ Function that is invoked when the `View` starts loading.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onLoadStart={({ nativeEvent }) => {
     this.url = nativeEvent.url;
@@ -211,7 +211,7 @@ Function that is invoked when the `View` load succeeds or fails.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onLoadEnd={({ nativeEvent }) => {
     this.url = nativeEvent.url;
@@ -238,7 +238,7 @@ Function that is invoked when the `View` load fails.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onLoadError={({ nativeEvent }) => {
     this.url = nativeEvent.url;
@@ -265,7 +265,7 @@ Function that is invoked when the `View` is ready.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onReady={({ nativeEvent }) => {
     this.url = nativeEvent.url;
@@ -293,7 +293,7 @@ Function that is invoked when the `View` require login.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onLogin={({ nativeEvent }) => {
     // TODO：Login For You App
@@ -321,7 +321,7 @@ Function that is invoked when the `View` share finished.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onShare={({ nativeEvent }) => {}}
 />
@@ -356,7 +356,7 @@ Function that is invoked when user add item to cart.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onAddToCart={({ nativeEvent }) => {}}
 />
@@ -393,7 +393,7 @@ Function that is invoked when user add up at cart page.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onAddUp={({ nativeEvent }) => {}}
 />
@@ -431,7 +431,7 @@ Function that is invoked when user click buy now at detail page.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onBuyNow={({ nativeEvent }) => {}}
 />
@@ -468,7 +468,7 @@ Function that is invoked when user pay finished.
 Example:
 
 ```jsx
-<Browser
+<YouzanBrowser
   source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
   onPaymentFinished={({ nativeEvent }) => {}}
 />
@@ -498,7 +498,6 @@ payType
 - [`reload`](README.md#reload)
 - [`stopLoading`](README.md#stopLoading)
 - [`goBackWithStep`](README.md#goBackWithStep)
-- [`syncToken`](README.md#syncToken)
 
 #### `goBack`[⬆](#methods-index)
 
@@ -540,14 +539,6 @@ goBackWithStep(step);
 
 Go back `step` page in the view's history.
 
-#### `syncToken`[⬆](#methods-index)
-
-```javascript
-syncToken(token);
-```
-
-Sync token to browser.
-
 ### SDK Methods Index
 
 - [`login`](README.md#login)
@@ -556,9 +547,9 @@ Sync token to browser.
 #### `login`[⬆](#sdk-methods-index)
 
 ```javascript
-import { Account } from 'react-native-youzan';
+import { YouzanAccount } from 'react-native-youzan';
 
-Account.login({
+YouzanAccount.login({
   openUserId: userId,
   avatar: '',
   extra: '',
@@ -579,9 +570,9 @@ yzOpenId
 #### `logout`[⬆](#sdk-methods-index)
 
 ```javascript
-import { Account } from 'react-native-youzan';
+import { YouzanAccount } from 'react-native-youzan';
 
-Account.logout().then((res) => {
+YouzanAccount.logout().then((res) => {
   // Logout Success
 });
 ```
