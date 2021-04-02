@@ -31,11 +31,6 @@ declare class Browser<P = {}> extends Component<BrowserProps & P> {
      */
     goBackWithStep: (step: number) => void;
 
-    /**
-     * Sync token to browser
-     */
-    syncToken: (data: object) => void;
-
     browserRef: React.RefObject<BrowserProps>;
     getCommands: () => {
         reload: number;

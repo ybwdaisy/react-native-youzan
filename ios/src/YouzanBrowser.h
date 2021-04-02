@@ -31,6 +31,5 @@
 - (void)goForward;
 - (void)goBack;
 - (void)goBackWithStep:(NSInteger)step;
-- (void)syncToken:(NSDictionary *)token;
 
 @end

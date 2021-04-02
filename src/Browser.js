@@ -77,14 +77,6 @@ class Browser extends Component {
         )
     }
 
-    syncToken = (token) => {
-        UIManager.dispatchViewManagerCommand(
-            this.findNodeHandle(),
-            this.getCommands().syncToken,
-            [token],
-        )
-    }
-
     render() {
         const {
             style,
