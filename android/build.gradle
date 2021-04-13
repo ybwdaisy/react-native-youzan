@@ -92,7 +92,7 @@ def configureReactNativePom(def pom) {
         name packageJson.title
         artifactId packageJson.name
         version = packageJson.version
-        group = "ybwdaisy"
+        group = "com.ybwdaisy"
         description packageJson.description
         url packageJson.repository.baseUrl
 
