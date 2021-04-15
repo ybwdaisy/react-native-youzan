@@ -46,7 +46,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	public static final int COMMAND_STOP_LOADING = 2;
 	public static final int COMMAND_GO_FORWARD = 3;
 	public static final int COMMAND_GO_BACK = 4;
-	public static final int COMMAND_GO_BACK_WITH_STEP = 5;
+	public static final int COMMAND_GO_BACK_HOME = 5;
+	public static final int COMMAND_GO_BACK_WITH_STEP = 6;
 
 	private YouzanBrowser youzanBrowser;
 	private ReadableMap mSource = null;
@@ -68,6 +69,9 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			case COMMAND_GO_BACK:
 				goBack();
 				break;
+			case COMMAND_GO_BACK_HOME:
+				goBackHome();
+				break;
 			case COMMAND_GO_BACK_WITH_STEP:
 				goBackWithStep(args.getInt(0));
 				break;
@@ -82,8 +86,9 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		return MapBuilder.<String, Integer>builder()
 				.put("reload", COMMAND_RELOAD)
 				.put("stopLoading", COMMAND_STOP_LOADING)
-				.put("goBack", COMMAND_GO_BACK)
 				.put("goForward", COMMAND_GO_FORWARD)
+				.put("goBack", COMMAND_GO_BACK)
+				.put("goBackHome", COMMAND_GO_BACK_HOME)
 				.put("goBackWithStep", COMMAND_GO_BACK_WITH_STEP)
 				.build();
 	}
@@ -191,8 +196,16 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		}
 	}
 
+	private void goBackHome() {
+		int count = -1;
+		while(youzanBrowser.canGoBackOrForward(count)){
+			count--;
+		}
+		youzanBrowser.goBackOrForward(count + 1);
+	}
+
 	private void goBackWithStep(int step) {
-		if (youzanBrowser.canGoBack()) {
+		if(youzanBrowser.canGoBackOrForward(step)){
 			youzanBrowser.goBackOrForward(step);
 		}
 	}
@@ -200,6 +213,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	private WritableMap baseEvent() {
 		WritableMap event = new WritableNativeMap();
 		event.putString("url", youzanBrowser.getUrl());
+		event.putString("title", youzanBrowser.getTitle());
 		event.putBoolean("canGoBack", youzanBrowser.canGoBack());
 		event.putBoolean("canGoForward", youzanBrowser.canGoForward());
 		return event;
