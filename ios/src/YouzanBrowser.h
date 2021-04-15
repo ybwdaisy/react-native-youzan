@@ -30,6 +30,7 @@
 - (void)stopLoading;
 - (void)goForward;
 - (void)goBack;
+- (void)goBackHome;
 - (void)goBackWithStep:(NSInteger)step;
 
 @end

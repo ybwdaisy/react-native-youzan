@@ -7,16 +7,6 @@ import {
 
 declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
     /**
-     * Go back one page in the browser's history.
-     */
-    goBack: () => void;
-
-    /**
-     * Go forward one page in the browser's history.
-     */
-    goForward: () => void;
-
-    /**
      * Reloads the current page.
      */
     reload: () => void;
@@ -25,6 +15,21 @@ declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
      * Stop loading the current page.
      */
     stopLoading: () => void;
+
+    /**
+     * Go forward one page in the browser's history.
+     */
+    goForward: () => void;
+
+    /**
+     * Go back one page in the browser's history.
+     */
+    goBack: () => void;
+
+     /**
+      * Go back to init page.
+      */
+    goBackHome: () => void;
 
     /**
      * Go back steps page in the browser's history

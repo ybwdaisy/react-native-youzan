@@ -69,6 +69,14 @@ class Browser extends Component {
         )
     }
 
+    goBackHome = () => {
+        UIManager.dispatchViewManagerCommand(
+            this.findNodeHandle(),
+            this.getCommands().goBackHome,
+            undefined,
+        )
+    }
+
     goBackWithStep = (step) => {
         UIManager.dispatchViewManagerCommand(
             this.findNodeHandle(),

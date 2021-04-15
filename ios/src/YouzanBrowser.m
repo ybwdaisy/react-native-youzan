@@ -80,6 +80,13 @@
     }
 }
 
+- (void)goBackHome {
+    if ([_webView canGoBack]) {
+        NSInteger step = [_webView countOfHistory];
+        [_webView gobackWithStep:step];
+    }
+}
+
 - (void)goBackWithStep:(NSInteger)step {
     if ([_webView canGoBack]) {
         [_webView gobackWithStep:step];
@@ -110,7 +117,10 @@
 }
 - (void)webViewDidFinishLoad:(id<YZWebView>)webView {
     if (self.onLoadEnd) {
-        self.onLoadEnd([self baseEvent]);
+        NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+        NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+        [event setObject:title forKey:@"title"];
+        self.onLoadEnd(event);
     }
 }
 - (void)webView:(id<YZWebView>)webView didFailLoadWithError:(NSError *)error {

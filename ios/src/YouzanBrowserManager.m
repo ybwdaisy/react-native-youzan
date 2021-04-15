@@ -87,6 +87,15 @@ RCT_EXPORT_METHOD(goBack:(nonnull NSNumber *)reactTag) {
     }];
 }
 
+RCT_EXPORT_METHOD(goBackHome:(nonnull NSNumber *)reactTag) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser goBackHome];
+            }
+    }];
+}
+
 RCT_EXPORT_METHOD(goForward:(nonnull NSNumber *)reactTag) {
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
             YouzanBrowser *browser = viewRegistry[reactTag];

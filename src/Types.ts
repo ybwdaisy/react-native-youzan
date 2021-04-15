@@ -9,6 +9,7 @@ export interface BrowserSource {
 
 export interface BaseEvent {
     url: string,
+    title?: string,
     canGoBack: boolean,
     canGoForward: boolean,
 }
