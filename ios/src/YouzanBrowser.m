@@ -245,7 +245,7 @@
                     NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
                     [data setObject:[notice.response objectForKey:@"tid"] forKey:@"tid"];
                     [data setObject:[notice.response objectForKey:@"status"] forKey:@"status"];
-                    [data setObject:[notice.response objectForKey:@"pay_price"] forKey:@"payPrice"];
+                    [data setObject:[notice.response objectForKey:@"pay_type"] forKey:@"payType"];
                     [event setObject:data forKey:@"data"];
                 }
                 self.onPaymentFinished(event);
