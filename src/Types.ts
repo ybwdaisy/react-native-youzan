@@ -86,7 +86,14 @@ export interface LoginInfo {
     gender?: string,
 }
 
+export interface YouzanToken {
+    yzOpenId: string,
+    accessToken?: string,
+    cookieKey?: string,
+    cookieValue?: string,
+}
+
 export interface AccountResult {
-    code?: number,
-    yzOpenId?: string,
+    code: number,
+    data: YouzanToken,
 }
