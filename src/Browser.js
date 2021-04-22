@@ -3,6 +3,7 @@ import {
     UIManager,
     findNodeHandle,
     requireNativeComponent,
+    Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -22,6 +23,7 @@ class Browser extends Component {
         onReady: PropTypes.func,
         onLogin: PropTypes.func.isRequired,
         onShare: PropTypes.func,
+        onChooser: PropTypes.func,
         onAddToCart: PropTypes.func,
         onBuyNow: PropTypes.func,
         onAddUp: PropTypes.func,
@@ -83,6 +85,16 @@ class Browser extends Component {
             this.getCommands().goBackWithStep,
             [step],
         )
+    }
+
+    receiveFile = (requestCode, uri) => {
+        if (Platform.OS === 'android') {
+            UIManager.dispatchViewManagerCommand(
+                this.findNodeHandle(),
+                this.getCommands().receiveFile,
+                [requestCode, uri],
+            )
+        }
     }
 
     render() {

@@ -24,6 +24,10 @@ export interface ShareEvent extends BaseEvent {
     data?: ShareEventData,
 }
 
+export interface ChooserEvent extends BaseEvent {
+    requestCode: number,
+}
+
 export interface SKUItem {
     itemId: string,
     skuId: string,
@@ -57,6 +61,7 @@ export interface PaymentFinishedEvent extends BaseEvent {
 
 export declare type BaseEventType = NativeSyntheticEvent<BaseEvent>;
 export declare type ShareEventType = NativeSyntheticEvent<ShareEvent>;
+export declare type ChooserEventType = NativeSyntheticEvent<ChooserEvent>;
 export declare type SKUItemEventType = NativeSyntheticEvent<SKUItemEvent>;
 export declare type AddUpEventType = NativeSyntheticEvent<AddUpEvent>;
 export declare type PaymentFinishedEventType = NativeSyntheticEvent<PaymentFinishedEvent>;
@@ -71,6 +76,7 @@ export interface BrowserProps extends ViewProps {
     onLoadError?: (event: BaseEventType) => void,
     onReady?: (event: BaseEventType) => void,
     onLogin: (event: BaseEventType) => void,
+    onChooser?: (event: ChooserEventType) => void,
     onShare?: (event: ShareEventType) => void,
     onAddToCart?: (event: SKUItemEventType) => void,
     onAddUp?: (event: AddUpEventType) => void,

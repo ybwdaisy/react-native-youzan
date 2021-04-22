@@ -1,7 +1,10 @@
 package com.ybwdaisy;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
@@ -24,6 +27,7 @@ import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;
 import com.youzan.androidsdk.event.AbsBuyNowEvent;
+import com.youzan.androidsdk.event.AbsChooserEvent;
 import com.youzan.androidsdk.event.AbsPaymentFinishedEvent;
 import com.youzan.androidsdk.event.AbsShareEvent;
 import com.youzan.androidsdk.event.AbsStateEvent;
@@ -48,6 +52,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	public static final int COMMAND_GO_BACK = 4;
 	public static final int COMMAND_GO_BACK_HOME = 5;
 	public static final int COMMAND_GO_BACK_WITH_STEP = 6;
+	public static final int COMMAND_CHOOSER = 7;
 
 	private YouzanBrowser youzanBrowser;
 	private ReadableMap mSource = null;
@@ -75,6 +80,9 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			case COMMAND_GO_BACK_WITH_STEP:
 				goBackWithStep(args.getInt(0));
 				break;
+			case COMMAND_CHOOSER:
+				receiveFile(args.getInt(0), args.getString(1));
+				break;
 			default:
 				break;
 		}
@@ -90,6 +98,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				.put("goBack", COMMAND_GO_BACK)
 				.put("goBackHome", COMMAND_GO_BACK_HOME)
 				.put("goBackWithStep", COMMAND_GO_BACK_WITH_STEP)
+				.put("receiveFile", COMMAND_CHOOSER)
 				.build();
 	}
 
@@ -106,6 +115,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		EVENT_LOGIN("onLogin"),
 		EVENT_SHARE("onShare"),
 		EVENT_READY("onReady"),
+		EVENT_CHOOSER("onChooser"),
 		EVENT_ADD_TO_CART("onAddToCart"),
 		EVENT_BUY_NOW("onBuyNow"),
 		EVENT_ADD_UP("onAddUp"),
@@ -210,6 +220,14 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		}
 	}
 
+	private void receiveFile(int requestCode, String uri) {
+		if (uri != null) {
+			Intent intent = new Intent();
+			intent.setData(Uri.parse(uri));
+			youzanBrowser.receiveFile(requestCode, intent);
+		}
+	}
+
 	private WritableMap baseEvent() {
 		WritableMap event = new WritableNativeMap();
 		event.putString("url", youzanBrowser.getUrl());
@@ -248,6 +266,15 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			@Override
 			public void call(Context context) {
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_READY.toString(), baseEvent());
+			}
+		});
+		// 文件选择事件
+		youzanBrowser.subscribe(new AbsChooserEvent() {
+			@Override
+			public void call(Context context, Intent intent, int requestCode) throws ActivityNotFoundException {
+				WritableMap baseEvent = baseEvent();
+				baseEvent.putInt("requestCode", requestCode);
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_CHOOSER.toString(), baseEvent);
 			}
 		});
 		// 加入购物车
