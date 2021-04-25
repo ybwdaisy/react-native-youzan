@@ -26,6 +26,7 @@ export interface ShareEvent extends BaseEvent {
 
 export interface ChooserEvent extends BaseEvent {
     requestCode: number,
+    acceptType: string,
 }
 
 export interface SKUItem {

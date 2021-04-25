@@ -38,9 +38,9 @@ declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
 
     /**
      * Android only
-     * Trigger select file from browser and send local uri path back to the browser.
+     * Select the file and send local uri path back to the browser.
      */
-    receiveFile: (requestCode: number, uri: string) => void;
+    receiveFile: (requestCode: number, uri?: string) => void;
 
     browserRef: React.RefObject<BrowserProps>;
     getCommands: () => {

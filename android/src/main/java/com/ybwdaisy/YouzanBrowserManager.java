@@ -221,11 +221,10 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	}
 
 	private void receiveFile(int requestCode, String uri) {
-		if (uri != null) {
-			Intent intent = new Intent();
-			intent.setData(Uri.parse(uri));
-			youzanBrowser.receiveFile(requestCode, intent);
-		}
+		Intent intent = new Intent();
+		String imgUri = uri != null ? uri : "";
+		intent.setData(Uri.parse(imgUri));
+		youzanBrowser.receiveFile(requestCode, intent);
 	}
 
 	private WritableMap baseEvent() {
@@ -274,6 +273,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			public void call(Context context, Intent intent, int requestCode) throws ActivityNotFoundException {
 				WritableMap baseEvent = baseEvent();
 				baseEvent.putInt("requestCode", requestCode);
+				baseEvent.putString("acceptType", intent.getType());
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_CHOOSER.toString(), baseEvent);
 			}
 		});
