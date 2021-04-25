@@ -36,6 +36,12 @@ declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
      */
     goBackWithStep: (step: number) => void;
 
+    /**
+     * Android only
+     * Select the file and send local uri path back to the browser.
+     */
+    receiveFile: (requestCode: number, uri?: string) => void;
+
     browserRef: React.RefObject<BrowserProps>;
     getCommands: () => {
         reload: number;
@@ -43,6 +49,7 @@ declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
         goForward: number;
         goBack: number;
         goBackWithStep: number;
+        receiveFile: number;
     };
     findNodeHandle: (current: null | number | React.Component<any, any> | React.ComponentClass<any>) => null | number;
     render(): JSX.Element;
