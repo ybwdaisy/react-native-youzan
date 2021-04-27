@@ -3,12 +3,18 @@ package com.ybwdaisy;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
@@ -20,6 +26,7 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
@@ -57,7 +64,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	private YouzanBrowser youzanBrowser;
 	private ReadableMap mSource = null;
 	private RCTEventEmitter mEventEmitter;
-	ReactApplicationContext mContext;
+	private ReactContext mContext;
+	private YouzanWebChromeClient mWebChromeClient = null;
 
 	@Override
 	public void receiveCommand(@NonNull YouzanBrowser youzanBrowser, int commandId, @Nullable ReadableArray args) {
@@ -102,7 +110,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				.build();
 	}
 
-	public YouzanBrowserManager(ReactApplicationContext reactContext) {
+	public YouzanBrowserManager(ReactContext reactContext) {
 		mContext = reactContext;
 	}
 
@@ -143,7 +151,12 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	@Override
 	protected YouzanBrowser createViewInstance(ThemedReactContext themedReactContext) {
 		mEventEmitter = themedReactContext.getJSModule(RCTEventEmitter.class);
-		youzanBrowser = new YouzanBrowser(themedReactContext);
+		themedReactContext.getCurrentActivity().getBaseContext();
+		youzanBrowser = new YouzanBrowser(themedReactContext.getCurrentActivity());
+		// Fix 视频播放白屏
+		setupWebChromeClient(themedReactContext, youzanBrowser);
+		// Fixes broken full-screen modals/galleries due to body height being 0.
+		youzanBrowser.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		youzanBrowser.needLoading(false);
 		// WebView 加载回调
 		youzanBrowser.setWebViewClient(new WebViewClient() {
@@ -172,6 +185,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_LOAD_ERROR.toString(), baseEvent());
 			}
 		});
+		// 监听事件
 		subscribeYouzanEvents();
 		return youzanBrowser;
 	}
@@ -354,4 +368,68 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			youzanBrowser.loadUrl(uri);
 		}
 	}
+
+
+	protected void setupWebChromeClient(ReactContext reactContext, YouzanBrowser webView) {
+		final int initialRequestedOrientation = reactContext.getCurrentActivity().getRequestedOrientation();
+		mWebChromeClient = new YouzanWebChromeClient(reactContext, webView) {
+			@Override
+			public Bitmap getDefaultVideoPoster() {
+				return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+			}
+
+			@Override
+			public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
+				super.onShowCustomView(view, callback);
+				if (mVideoView != null) {
+					callback.onCustomViewHidden();
+					return;
+				}
+
+				mVideoView = view;
+				mCustomViewCallback = callback;
+
+				mReactContext.getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+					mVideoView.setSystemUiVisibility(FULLSCREEN_SYSTEM_UI_VISIBILITY);
+					mReactContext.getCurrentActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+				}
+
+				mVideoView.setBackgroundColor(Color.BLACK);
+				getRootView().addView(mVideoView, FULLSCREEN_LAYOUT_PARAMS);
+				mWebView.setVisibility(View.GONE);
+
+				mReactContext.addLifecycleEventListener(this);
+
+				mCustomViewCallback.onCustomViewHidden();
+			}
+
+			@Override
+			public void onHideCustomView() {
+				if (mVideoView == null) {
+					return;
+				}
+
+				mVideoView.setVisibility(View.GONE);
+				getRootView().removeView(mVideoView);
+				mCustomViewCallback.onCustomViewHidden();
+
+				mVideoView = null;
+				mCustomViewCallback = null;
+
+				mWebView.setVisibility(View.VISIBLE);
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+					mReactContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+				}
+				mReactContext.getCurrentActivity().setRequestedOrientation(initialRequestedOrientation);
+
+				mReactContext.removeLifecycleEventListener(this);
+			}
+		};
+		webView.setWebChromeClient(mWebChromeClient);
+	}
+
+
 }
