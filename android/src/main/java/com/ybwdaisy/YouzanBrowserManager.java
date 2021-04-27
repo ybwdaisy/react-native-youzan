@@ -151,7 +151,6 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	@Override
 	protected YouzanBrowser createViewInstance(ThemedReactContext themedReactContext) {
 		mEventEmitter = themedReactContext.getJSModule(RCTEventEmitter.class);
-		themedReactContext.getCurrentActivity().getBaseContext();
 		youzanBrowser = new YouzanBrowser(themedReactContext.getCurrentActivity());
 		// Fix 视频播放白屏
 		setupWebChromeClient(themedReactContext, youzanBrowser);
