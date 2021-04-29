@@ -1,6 +1,14 @@
 # React Native Youzan Getting Started Guide
 
+[![NPM Version](https://img.shields.io/npm/v/react-native-youzan.svg)](https://www.npmjs.com/package/react-native-youzan) [![Downloads](https://img.shields.io/npm/dm/react-native-youzan.svg?sanitize=true)](https://www.npmjs.com/package/react-native-youzan) [![License](https://img.shields.io/npm/l/vue.svg?sanitize=true)](https://www.npmjs.com/package/react-native-youzan)
+
 ## 安装依赖包
+
+```bash
+yarn add react-native-youzan
+```
+
+或
 
 ```bash
 npm install react-native-youzan --save
