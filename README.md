@@ -57,7 +57,7 @@ react-native link react-native-youzan
 allprojects {
     repositories {
       ...
-      maven { url 'http://maven.youzanyun.com/repository/maven-releases' }
+      maven { url 'https://maven.youzanyun.com/repository/maven-releases' }
     }
 }
 ```
