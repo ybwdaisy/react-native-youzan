@@ -75,7 +75,7 @@ repositories {
         url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
     maven {
-        url 'https://dl.bintray.com/youzanyun/maven/'
+        url 'http://maven.youzanyun.com/repository/maven-releases'
     }
 }
 
