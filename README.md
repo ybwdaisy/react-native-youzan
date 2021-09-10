@@ -67,7 +67,7 @@ allprojects {
 ```java
 dependencies {
   ...
-  implementation 'com.youzanyun.open.mobile:x5sdk:7.1.15', {
+  implementation 'com.youzanyun.open.mobile:x5sdk:7.1.17', {
     exclude group: 'com.android.support'
   }
 }
