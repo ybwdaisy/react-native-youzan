@@ -265,18 +265,10 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			public void call(Context context, GoodsShareModel goodsShareModel) {
 				WritableMap baseEvent = baseEvent();
 				WritableMap data = new WritableNativeMap();
-				if (goodsShareModel.getTitle()) {
-					data.putString("title", goodsShareModel.getTitle());
-				}
-				if (goodsShareModel.getDesc()) {
-					data.putString("desc", goodsShareModel.getDesc());
-				}
-				if (goodsShareModel.getLink()) {
-					data.putString("link", goodsShareModel.getLink());
-				}
-				if (goodsShareModel.getImgUrl()) {
-					data.putString("imgUrl", goodsShareModel.getImgUrl());
-				}
+				data.putString("title", goodsShareModel.getTitle());
+				data.putString("desc", goodsShareModel.getDesc());
+				data.putString("link", goodsShareModel.getLink());
+				data.putString("imgUrl", goodsShareModel.getImgUrl());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_SHARE.toString(), baseEvent);
 			}

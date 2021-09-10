@@ -153,18 +153,14 @@
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
                 if (notice.response != nil) {
                     NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
-                    if ([notice.response objectForKey:@"title"]) {
-                        [data setObject:[notice.response objectForKey:@"title"] forKey:@"title"];
-                    }
-                    if ([notice.response objectForKey:@"desc"]) {
-                        [data setObject:[notice.response objectForKey:@"desc"] forKey:@"desc"];
-                    }
-                    if ([notice.response objectForKey:@"link"]) {
-                        [data setObject:[notice.response objectForKey:@"link"] forKey:@"link"];
-                    }
-                    if ([notice.response objectForKey:@"img_url"]) {
-                        [data setObject:[notice.response objectForKey:@"img_url"] forKey:@"imgUrl"];
-                    }
+                    NSString *title = [notice.response objectForKey:@"title"];
+                    [data setValue:title != nil ? title : @"" forKey:@"title"];
+                    NSString *desc = [notice.response objectForKey:@"desc"];
+                    [data setValue:desc != nil ? desc : @"" forKey:@"desc"];
+                    NSString *link = [notice.response objectForKey:@"link"];
+                    [data setValue:link != nil ? link : @"" forKey:@"link"];
+                    NSString *imgUrl = [notice.response objectForKey:@"img_url"];
+                    [data setValue:imgUrl != nil ? imgUrl : @"" forKey:@"imgUrl"];
                     [event setObject:data forKey:@"data"];
                 }
                 self.onShare(event);
