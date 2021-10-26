@@ -33,6 +33,8 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;
+import com.youzan.androidsdk.event.AbsAuthorizationErrorEvent;
+import com.youzan.androidsdk.event.AbsAuthorizationSuccessEvent;
 import com.youzan.androidsdk.event.AbsBuyNowEvent;
 import com.youzan.androidsdk.event.AbsChooserEvent;
 import com.youzan.androidsdk.event.AbsPaymentFinishedEvent;
@@ -127,7 +129,10 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		EVENT_ADD_TO_CART("onAddToCart"),
 		EVENT_BUY_NOW("onBuyNow"),
 		EVENT_ADD_UP("onAddUp"),
-		EVENT_PAYMENT_FINISHED("onPaymentFinished");
+		EVENT_PAYMENT_FINISHED("onPaymentFinished"),
+
+		EVENT_AUTHORIZATION_SUCCEED("onAuthorizationSucceed"),
+		EVENT_AUTHORIZATION_FAILED("onAuthorizationFailed");
 
 		private final String mName;
 
@@ -354,6 +359,26 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				data.putInt("payType", tradePayFinishedModel.getPayType());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_PAYMENT_FINISHED.toString(), baseEvent);
+			}
+		});
+		// 手机号授权成功回调
+		youzanBrowser.subscribe(new AbsAuthorizationSuccessEvent() {
+			@Override
+			public void call(Context context) {
+				WritableMap baseEvent = baseEvent();
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_SUCCEED.toString(), baseEvent);
+			}
+		});
+		// 手机号授权失败回调
+		youzanBrowser.subscribe(new AbsAuthorizationErrorEvent() {
+			@Override
+			public void call(Context context, int code, String message) {
+				WritableMap baseEvent = baseEvent();
+				WritableMap data = new WritableNativeMap();
+				data.putInt("code", code);
+				data.putString("message", message);
+				baseEvent.putMap("data", data);
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_FAILED.toString(), baseEvent);
 			}
 		});
 

@@ -23,6 +23,8 @@
 @property(nonatomic, copy) RCTDirectEventBlock onBuyNow;
 @property(nonatomic, copy) RCTDirectEventBlock onAddUp;
 @property(nonatomic, copy) RCTDirectEventBlock onPaymentFinished;
+@property(nonatomic, copy) RCTDirectEventBlock onAuthorizationSucceed;
+@property(nonatomic, copy) RCTDirectEventBlock onAuthorizationFailed;
 
 - (instancetype)initWithBridge:(RCTBridge *)bridge;
 

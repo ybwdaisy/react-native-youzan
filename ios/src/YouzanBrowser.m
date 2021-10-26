@@ -256,8 +256,30 @@
             }
             break;
         }
+        case YZNoticeTypeAuthorizationSucceed: {
+            NSLog(@"YZNoticeTypeAuthorizationSucceed response: %@", notice.response);
+            if (self.onAuthorizationSucceed) {
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                self.onAuthorizationSucceed(event);
+            }
+            break;
+        }
+        case YZNoticeTypeAuthorizationFailed: {
+            NSLog(@"YZNoticeTypeAuthorizationFailed response: %@", notice.response);
+            if (self.onAuthorizationFailed) {
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                if (notice.response != nil && [notice.response isKindOfClass:[NSDictionary class]]) {
+                    NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                    [data setObject:[notice.response objectForKey:@"code"] forKey:@"code"];
+                    [data setObject:[notice.response objectForKey:@"msg"] forKey:@"message"];
+                    [event setObject:data forKey:@"data"];
+                }
+                self.onAuthorizationFailed(event);
+            }
+            break;
+        }
         case YZNoticeTypeOther: {
-            NSLog(@"response: %@", notice.response);
+            NSLog(@"YZNoticeTypeOther response: %@", notice.response);
         }
         default:
             break;
