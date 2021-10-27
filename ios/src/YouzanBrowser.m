@@ -268,6 +268,10 @@
             NSLog(@"YZNoticeTypeAuthorizationSucceed response: %@", notice.response);
             if (self.onAuthorizationSucceed) {
                 NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                [data setObject:@0 forKey:@"code"];
+                [data setObject:@"success" forKey:@"message"];
+                [event setObject:data forKey:@"data"];
                 self.onAuthorizationSucceed(event);
             }
             break;

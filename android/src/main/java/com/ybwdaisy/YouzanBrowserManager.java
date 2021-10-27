@@ -376,6 +376,10 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			@Override
 			public void call(Context context) {
 				WritableMap baseEvent = baseEvent();
+				WritableMap data = new WritableNativeMap();
+				data.putInt("code", 0);
+				data.putString("message", "success");
+				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_SUCCEED.toString(), baseEvent);
 			}
 		});
@@ -384,16 +388,13 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			@Override
 			public void call(Context context, int code, String message) {
 				WritableMap baseEvent = baseEvent();
-				// 如果已授权成功
-				if (code == 0) {
-					mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_SUCCEED.toString(), baseEvent);
-					return;
-				}
 				WritableMap data = new WritableNativeMap();
 				data.putInt("code", code);
 				data.putString("message", message);
 				baseEvent.putMap("data", data);
-				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_FAILED.toString(), baseEvent);
+				// code == 0 表示已授权成功
+				Events eventName = code == 0 ? Events.EVENT_AUTHORIZATION_SUCCEED : Events.EVENT_AUTHORIZATION_FAILED;
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), eventName.toString(), baseEvent);
 			}
 		});
 
