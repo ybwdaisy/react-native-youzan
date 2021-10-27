@@ -118,6 +118,15 @@ RCT_EXPORT_METHOD(goBackWithStep:(nonnull NSNumber *)reactTag step:(NSInteger)st
     }];
 }
 
+RCT_EXPORT_METHOD(loadUrl:(nonnull NSNumber *)reactTag url:(NSString *)url) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser loadUrl:url];
+            }
+    }];
+}
+
 #pragma mark Export Static Methods
 
 RCT_EXPORT_METHOD(login:(nonnull NSDictionary *)loginInfo

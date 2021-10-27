@@ -34,5 +34,6 @@
 - (void)goBack;
 - (void)goBackHome;
 - (void)goBackWithStep:(NSInteger)step;
+- (void)loadUrl:(NSString *)url;
 
 @end

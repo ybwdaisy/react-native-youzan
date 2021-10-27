@@ -62,6 +62,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	public static final int COMMAND_GO_BACK_HOME = 5;
 	public static final int COMMAND_GO_BACK_WITH_STEP = 6;
 	public static final int COMMAND_CHOOSER = 7;
+	public static final int COMMAND_LOAD_URL = 8;
 
 	private YouzanBrowser youzanBrowser;
 	private ReadableMap mSource = null;
@@ -93,6 +94,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			case COMMAND_CHOOSER:
 				receiveFile(args.getInt(0), args.getString(1));
 				break;
+			case COMMAND_LOAD_URL:
+				loadUrl(args.getString(0));
 			default:
 				break;
 		}
@@ -109,6 +112,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				.put("goBackHome", COMMAND_GO_BACK_HOME)
 				.put("goBackWithStep", COMMAND_GO_BACK_WITH_STEP)
 				.put("receiveFile", COMMAND_CHOOSER)
+				.put("loadUrl", COMMAND_LOAD_URL)
 				.build();
 	}
 
@@ -245,6 +249,12 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		youzanBrowser.receiveFile(requestCode, intent);
 	}
 
+	private void loadUrl(String url) {
+		if (url != null) {
+			youzanBrowser.loadUrl(url);
+		}
+	}
+
 	private WritableMap baseEvent() {
 		WritableMap event = new WritableNativeMap();
 		event.putString("url", youzanBrowser.getUrl());
@@ -374,6 +384,11 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			@Override
 			public void call(Context context, int code, String message) {
 				WritableMap baseEvent = baseEvent();
+				// 如果已授权成功
+				if (code == 0) {
+					mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_SUCCEED.toString(), baseEvent);
+					return;
+				}
 				WritableMap data = new WritableNativeMap();
 				data.putInt("code", code);
 				data.putString("message", message);

@@ -93,6 +93,14 @@
     }
 }
 
+- (void)loadUrl:(NSString *)url {
+    if (url) {
+        NSURL *requestUrl = [NSURL URLWithString:url];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:requestUrl];
+        [_webView loadRequest:urlRequest];
+    }
+}
+
 - (NSMutableDictionary<NSString *, id> *)baseEvent {
     NSDictionary *event = @{
         @"url": _webView.URL.absoluteString ? : @"",
