@@ -1,11 +1,13 @@
 ### Methods Index
 
-- [`reload`](README.md#reload)
-- [`stopLoading`](README.md#stopLoading)
-- [`goForward`](README.md#goForward)
-- [`goBack`](README.md#goBack)
-- [`goBackHome`](README.md#goBackHome)
-- [`goBackWithStep`](README.md#goBackWithStep)
+- [`reload`](Method.md#reload)
+- [`stopLoading`](Method.md#stopLoading)
+- [`goForward`](Method.md#goForward)
+- [`goBack`](Method.md#goBack)
+- [`goBackHome`](Method.md#goBackHome)
+- [`goBackWithStep`](Method.md#goBackWithStep)
+- [`receiveFile`](Method.md#receiveFile)
+- [`loadUrl`](Method.md#loadUrl)
 
 ### `reload()`[⬆](#methods-index)
 
@@ -54,3 +56,20 @@ goBackWithStep(step);
 ```
 
 Go back `step` page in the view's history.
+
+
+#### `receiveFile`[⬆](#methods-index)
+
+```javascript
+receiveFile(requestCode, uri);
+```
+
+[**Android only**] Select the file and send local uri path back to the browser.
+
+#### `loadUrl`[⬆](#methods-index)
+
+```javascript
+loadUrl(url);
+```
+
+Load url in the browser.

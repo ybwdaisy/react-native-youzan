@@ -30,6 +30,8 @@ RCT_EXPORT_VIEW_PROPERTY(onAddToCart, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onBuyNow, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onAddUp, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onPaymentFinished, RCTDirectEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onAuthorizationSucceed, RCTDirectEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onAuthorizationFailed, RCTDirectEventBlock);
 
 - (UIView *)view {
     return [[YouzanBrowser alloc]initWithBridge:self.bridge];
@@ -48,7 +50,9 @@ RCT_EXPORT_VIEW_PROPERTY(onPaymentFinished, RCTDirectEventBlock);
         @"onAddToCart",
         @"onBuyNow",
         @"onAddUp",
-        @"onPaymentFinished"
+        @"onPaymentFinished",
+        @"onAuthorizationSucceed",
+        @"onAuthorizationFailed"
     ];
 }
 
@@ -110,6 +114,15 @@ RCT_EXPORT_METHOD(goBackWithStep:(nonnull NSNumber *)reactTag step:(NSInteger)st
             YouzanBrowser *browser = viewRegistry[reactTag];
             if ([browser isKindOfClass:YouzanBrowser.class]) {
                 [browser goBackWithStep:step];
+            }
+    }];
+}
+
+RCT_EXPORT_METHOD(loadUrl:(nonnull NSNumber *)reactTag url:(NSString *)url) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,YouzanBrowser *> *viewRegistry) {
+            YouzanBrowser *browser = viewRegistry[reactTag];
+            if ([browser isKindOfClass:YouzanBrowser.class]) {
+                [browser loadUrl:url];
             }
     }];
 }

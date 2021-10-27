@@ -42,6 +42,11 @@ declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
      */
     receiveFile: (requestCode: number, uri?: string) => void;
 
+    /**
+     * Load url in the browser
+     */
+    loadUrl: (url: string) => void;
+
     browserRef: React.RefObject<BrowserProps>;
     getCommands: () => {
         reload: number;
@@ -50,6 +55,7 @@ declare class YouzanBrowser<P = {}> extends Component<BrowserProps & P> {
         goBack: number;
         goBackWithStep: number;
         receiveFile: number;
+        loadUrl: number;
     };
     findNodeHandle: (current: null | number | React.Component<any, any> | React.ComponentClass<any>) => null | number;
     render(): JSX.Element;

@@ -50,6 +50,21 @@ export interface AddUpEvent extends BaseEvent {
     data?: AddUpEventData[],
 }
 
+/**
+ * -----------
+ * payType 枚举
+ * 0 其他
+ * 1 微信支付
+ * 2 支付宝支付
+ * 3 储蓄卡支付
+ * 4 信用卡支付
+ * 5 储值支付（E卡 礼品卡 储值卡等）
+ * 6 他人代付
+ * -----------
+ * status 枚举
+ * 0 支付失败
+ * 1 支付成功
+ */
 export interface PaymentFinishedData {
     tid: string,
     status: string,
@@ -60,12 +75,30 @@ export interface PaymentFinishedEvent extends BaseEvent {
     data?: PaymentFinishedData,
 }
 
+/**
+ * code 枚举
+ * 1001 当前App不支持授权
+ * 1002 未开启手机号授权
+ * 1003 未找到手机号
+ * 1004 点击授权失败
+ */
+export interface AuthorizationFailedData {
+    code: number,
+    message: string,
+}
+
+export interface AuthorizationFailedEvent extends BaseEvent {
+    data?: AuthorizationFailedData,
+}
+
 export declare type BaseEventType = NativeSyntheticEvent<BaseEvent>;
 export declare type ShareEventType = NativeSyntheticEvent<ShareEvent>;
 export declare type ChooserEventType = NativeSyntheticEvent<ChooserEvent>;
 export declare type SKUItemEventType = NativeSyntheticEvent<SKUItemEvent>;
 export declare type AddUpEventType = NativeSyntheticEvent<AddUpEvent>;
 export declare type PaymentFinishedEventType = NativeSyntheticEvent<PaymentFinishedEvent>;
+export declare type AuthorizationSucceedEventType = NativeSyntheticEvent<BaseEvent>;
+export declare type AuthorizationFailedEventType = NativeSyntheticEvent<AuthorizationFailedEvent>;
 
 export interface BrowserProps extends ViewProps {
     source: BrowserSource,
@@ -83,6 +116,8 @@ export interface BrowserProps extends ViewProps {
     onAddUp?: (event: AddUpEventType) => void,
     onBuyNow?: (event: SKUItemEventType) => void,
     onPaymentFinished?: (event: PaymentFinishedEventType) => void,
+    onAuthorizationSucceed?: (event: BaseEventType) => void,
+    onAuthorizationFailed?: (event: AuthorizationFailedEvent) => void,
 }
 
 export interface LoginInfo {

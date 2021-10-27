@@ -2,20 +2,20 @@
 
 ### Props Index
 
-- [`source`](README.md#source)
-- [`width`](README.md#width)
-- [`height`](README.md#height)
-- [`onLoad`](README.md#onLoad)
-- [`onLoadStart`](README.md#onLoadStart)
-- [`onLoadEnd`](README.md#onLoadEnd)
-- [`onLoadError`](README.md#onLoadError)
-- [`onReady`](README.md#onReady)
-- [`onLogin`](README.md#onLogin)
-- [`onShare`](README.md#onShare)
-- [`onAddToCart`](README.md#onAddToCart)
-- [`onAddUp`](README.md#onAddUp)
-- [`onBuyNow`](README.md#onBuyNow)
-- [`onPaymentFinished`](README.md#onPaymentFinished)
+- [`source`](Reference.md#source)
+- [`width`](Reference.md#width)
+- [`height`](Reference.md#height)
+- [`onLoad`](Reference.md#onLoad)
+- [`onLoadStart`](Reference.md#onLoadStart)
+- [`onLoadEnd`](Reference.md#onLoadEnd)
+- [`onLoadError`](Reference.md#onLoadError)
+- [`onReady`](Reference.md#onReady)
+- [`onLogin`](Reference.md#onLogin)
+- [`onShare`](Reference.md#onShare)
+- [`onAddToCart`](Reference.md#onAddToCart)
+- [`onAddUp`](Reference.md#onAddUp)
+- [`onBuyNow`](Reference.md#onBuyNow)
+- [`onPaymentFinished`](Reference.md#onPaymentFinished)
 
 #### `source`
 

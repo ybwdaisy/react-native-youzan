@@ -97,6 +97,14 @@ class Browser extends Component {
         }
     }
 
+    loadUrl = (url) => {
+        UIManager.dispatchViewManagerCommand(
+            this.findNodeHandle(),
+            this.getCommands().loadUrl,
+            [url],
+        )
+    }
+
     render() {
         const {
             style,

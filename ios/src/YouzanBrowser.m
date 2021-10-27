@@ -93,6 +93,14 @@
     }
 }
 
+- (void)loadUrl:(NSString *)url {
+    if (url) {
+        NSURL *requestUrl = [NSURL URLWithString:url];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:requestUrl];
+        [_webView loadRequest:urlRequest];
+    }
+}
+
 - (NSMutableDictionary<NSString *, id> *)baseEvent {
     NSDictionary *event = @{
         @"url": _webView.URL.absoluteString ? : @"",
@@ -256,8 +264,34 @@
             }
             break;
         }
+        case YZNoticeTypeAuthorizationSucceed: {
+            NSLog(@"YZNoticeTypeAuthorizationSucceed response: %@", notice.response);
+            if (self.onAuthorizationSucceed) {
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                [data setObject:@0 forKey:@"code"];
+                [data setObject:@"success" forKey:@"message"];
+                [event setObject:data forKey:@"data"];
+                self.onAuthorizationSucceed(event);
+            }
+            break;
+        }
+        case YZNoticeTypeAuthorizationFailed: {
+            NSLog(@"YZNoticeTypeAuthorizationFailed response: %@", notice.response);
+            if (self.onAuthorizationFailed) {
+                NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+                if (notice.response != nil && [notice.response isKindOfClass:[NSDictionary class]]) {
+                    NSMutableDictionary<NSString *, id> *data = [[NSMutableDictionary alloc]init];
+                    [data setObject:[notice.response objectForKey:@"code"] forKey:@"code"];
+                    [data setObject:[notice.response objectForKey:@"msg"] forKey:@"message"];
+                    [event setObject:data forKey:@"data"];
+                }
+                self.onAuthorizationFailed(event);
+            }
+            break;
+        }
         case YZNoticeTypeOther: {
-            NSLog(@"response: %@", notice.response);
+            NSLog(@"YZNoticeTypeOther response: %@", notice.response);
         }
         default:
             break;

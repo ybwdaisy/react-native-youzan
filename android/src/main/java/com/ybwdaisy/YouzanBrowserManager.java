@@ -33,6 +33,8 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.youzan.androidsdk.event.AbsAddToCartEvent;
 import com.youzan.androidsdk.event.AbsAddUpEvent;
 import com.youzan.androidsdk.event.AbsAuthEvent;
+import com.youzan.androidsdk.event.AbsAuthorizationErrorEvent;
+import com.youzan.androidsdk.event.AbsAuthorizationSuccessEvent;
 import com.youzan.androidsdk.event.AbsBuyNowEvent;
 import com.youzan.androidsdk.event.AbsChooserEvent;
 import com.youzan.androidsdk.event.AbsPaymentFinishedEvent;
@@ -60,6 +62,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 	public static final int COMMAND_GO_BACK_HOME = 5;
 	public static final int COMMAND_GO_BACK_WITH_STEP = 6;
 	public static final int COMMAND_CHOOSER = 7;
+	public static final int COMMAND_LOAD_URL = 8;
 
 	private YouzanBrowser youzanBrowser;
 	private ReadableMap mSource = null;
@@ -91,6 +94,8 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 			case COMMAND_CHOOSER:
 				receiveFile(args.getInt(0), args.getString(1));
 				break;
+			case COMMAND_LOAD_URL:
+				loadUrl(args.getString(0));
 			default:
 				break;
 		}
@@ -107,6 +112,7 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				.put("goBackHome", COMMAND_GO_BACK_HOME)
 				.put("goBackWithStep", COMMAND_GO_BACK_WITH_STEP)
 				.put("receiveFile", COMMAND_CHOOSER)
+				.put("loadUrl", COMMAND_LOAD_URL)
 				.build();
 	}
 
@@ -127,7 +133,10 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		EVENT_ADD_TO_CART("onAddToCart"),
 		EVENT_BUY_NOW("onBuyNow"),
 		EVENT_ADD_UP("onAddUp"),
-		EVENT_PAYMENT_FINISHED("onPaymentFinished");
+		EVENT_PAYMENT_FINISHED("onPaymentFinished"),
+
+		EVENT_AUTHORIZATION_SUCCEED("onAuthorizationSucceed"),
+		EVENT_AUTHORIZATION_FAILED("onAuthorizationFailed");
 
 		private final String mName;
 
@@ -238,6 +247,12 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 		String imgUri = uri != null ? uri : "";
 		intent.setData(Uri.parse(imgUri));
 		youzanBrowser.receiveFile(requestCode, intent);
+	}
+
+	private void loadUrl(String url) {
+		if (url != null) {
+			youzanBrowser.loadUrl(url);
+		}
 	}
 
 	private WritableMap baseEvent() {
@@ -354,6 +369,32 @@ public class YouzanBrowserManager extends SimpleViewManager<YouzanBrowser> {
 				data.putInt("payType", tradePayFinishedModel.getPayType());
 				baseEvent.putMap("data", data);
 				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_PAYMENT_FINISHED.toString(), baseEvent);
+			}
+		});
+		// 手机号授权成功回调
+		youzanBrowser.subscribe(new AbsAuthorizationSuccessEvent() {
+			@Override
+			public void call(Context context) {
+				WritableMap baseEvent = baseEvent();
+				WritableMap data = new WritableNativeMap();
+				data.putInt("code", 0);
+				data.putString("message", "success");
+				baseEvent.putMap("data", data);
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), Events.EVENT_AUTHORIZATION_SUCCEED.toString(), baseEvent);
+			}
+		});
+		// 手机号授权失败回调
+		youzanBrowser.subscribe(new AbsAuthorizationErrorEvent() {
+			@Override
+			public void call(Context context, int code, String message) {
+				WritableMap baseEvent = baseEvent();
+				WritableMap data = new WritableNativeMap();
+				data.putInt("code", code);
+				data.putString("message", message);
+				baseEvent.putMap("data", data);
+				// code == 0 表示已授权成功
+				Events eventName = code == 0 ? Events.EVENT_AUTHORIZATION_SUCCEED : Events.EVENT_AUTHORIZATION_FAILED;
+				mEventEmitter.receiveEvent(youzanBrowser.getId(), eventName.toString(), baseEvent);
 			}
 		});
 
