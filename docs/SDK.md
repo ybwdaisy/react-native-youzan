@@ -1,8 +1,8 @@
 
 ### SDK Methods Index
 
-- [`login`](README.md#login)
-- [`logout`](README.md#logout)
+- [`login`](SDK.md#login)
+- [`logout`](SDK.md#logout)
 
 #### `login`[⬆](#sdk-methods-index)
 
