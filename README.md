@@ -34,6 +34,17 @@ react-native link react-native-youzan
 ...
 #import <YZBaseSDK/YZBaseSDK.h>
 
+...
+
+@interface AppDelegate () <YZSDKDelegate>
+@end
+
+...
+
+@implementation AppDelegate
+
+...
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   ...
