@@ -103,21 +103,22 @@ public void onCreate() {
 ## 使用组件
 
 ```javascript
-import React, { Component } from 'react';
+import React from 'react';
+import { Dimensions } from 'react-native';
 import { YouzanBrowser } from 'react-native-youzan';
+const { width, height } = Dimensions.get('screen');
 
-class MyView extends Component {
-  render() {
-    return (
-      <YouzanBrowser
-        style={{ flex: 1 }}
-        width={375}
-        height={600}
-        source={{ uri: 'https://github.com/ybwdaisy/react-native-youzan' }}
-      />
-    );
-  }
-}
+const App = (): JSX.Element => {
+  return (
+    <YouzanBrowser
+      width={width}
+      height={height}
+      source={{uri: 'https://github.com/ybwdaisy/react-native-youzan'}}
+    />
+  );
+};
+
+export default App;
 ```
 
 ## 更多参考

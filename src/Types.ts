@@ -109,7 +109,7 @@ export interface BrowserProps extends ViewProps {
     onLoadEnd?: (event: BaseEventType) => void,
     onLoadError?: (event: BaseEventType) => void,
     onReady?: (event: BaseEventType) => void,
-    onLogin: (event: BaseEventType) => void,
+    onLogin?: (event: BaseEventType) => void,
     onChooser?: (event: ChooserEventType) => void,
     onShare?: (event: ShareEventType) => void,
     onAddToCart?: (event: SKUItemEventType) => void,
