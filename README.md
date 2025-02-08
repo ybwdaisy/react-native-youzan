@@ -70,11 +70,6 @@ allprojects {
       ...
       maven { url 'https://maven.youzanyun.com/repository/maven-releases' }
     }
-
-    dependencies {
-      ...
-      classpath("com.youzanyun.open.mobile:x5sdk:7.11.1")
-    }
 }
 ```
 
