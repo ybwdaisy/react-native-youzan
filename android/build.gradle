@@ -79,7 +79,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.youzanyun.open.mobile:x5sdk:7.11.1'
+    implementation 'com.youzanyun.open.mobile:x5sdk:7.12.1'
 }
 
 def configureReactNativePom(def pom) {
