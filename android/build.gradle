@@ -20,7 +20,7 @@ def safeExtGet(prop, fallback) {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 buildscript {
     // The Android Gradle plugin is only required when opening the android folder stand-alone.
@@ -37,9 +37,6 @@ buildscript {
         }
     }
 }
-
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
 
 android {
     compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
@@ -69,10 +66,10 @@ repositories {
     google()
     jcenter()
     maven {
-        url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'
+        url 'https://maven.aliyun.com/nexus/content/repositories/jcenter'
     }
     maven {
-        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        url 'https://maven.aliyun.com/nexus/content/groups/public/'
     }
     maven {
         url 'https://maven.youzanyun.com/repository/maven-releases'
@@ -82,7 +79,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.youzanyun.open.mobile:x5sdk:7.1.17'
+    implementation 'com.youzanyun.open.mobile:x5sdk:7.11.1'
 }
 
 def configureReactNativePom(def pom) {
@@ -113,13 +110,19 @@ def configureReactNativePom(def pom) {
     }
 }
 
+subprojects { subproject ->
+    if(project['name'] == 'react-native-youzan'){
+        project.configurations { compile { } }
+    }
+}
+
 afterEvaluate { project ->
     // some Gradle build hooks ref:
     // https://www.oreilly.com/library/view/gradle-beyond-the/9781449373801/ch03.html
     task androidJavadoc(type: Javadoc) {
         source = android.sourceSets.main.java.srcDirs
         classpath += files(android.bootClasspath)
-        classpath += files(project.getConfigurations().getByName('compile').asList())
+        // classpath += files(project.getConfigurations().getByName('compile').asList())
         include '**/*.java'
     }
 
@@ -146,14 +149,5 @@ afterEvaluate { project ->
     artifacts {
         archives androidSourcesJar
         archives androidJavadocJar
-    }
-
-    task installArchives(type: Upload) {
-        configuration = configurations.archives
-        repositories.mavenDeployer {
-            // Deploy to react-native-event-bridge/maven, ready to publish to npm
-            repository url: "file://${projectDir}/../android/maven"
-            configureReactNativePom pom
-        }
     }
 }
